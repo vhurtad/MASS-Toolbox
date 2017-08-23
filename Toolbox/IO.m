@@ -41,7 +41,7 @@ importModel[path_String,opts:OptionsPattern[]]:=Module[{stuff},
 ];
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*Matlab*)
 
 
@@ -92,7 +92,7 @@ mat2model[path_String]:=Module[{stuff},
 mat2model[]:=mat2model[SystemDialogInput["FileOpen"]];
 
 
-(* ::Subsection::Closed:: *)
+(* ::Subsection:: *)
 (*SBML import*)
 
 
@@ -160,7 +160,7 @@ Switch[#[[1]],
 getListOfRules[xml_/;Head[xml]===XMLObject["Document"],id2massID:{(_String->(_parameter|_parameter[t]|_species|_species[t]|_Symbol|_?NumberQ))..}]:=parseRuleXML[#,id2massID]&/@extractXMLelement[xml,"listOfRules",2]
 
 
-(* ::Subsubsection:: *)
+(* ::Subsubsection::Closed:: *)
 (*listOfFunctionDefinitions*)
 
 
@@ -174,7 +174,7 @@ getListOfFunctionDefinitions[xml_/;Head[xml]===XMLObject["Document"],opts:Option
 ];
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*listOfUnitDefinitions*)
 
 
@@ -191,17 +191,17 @@ parseUnitXML[XMLElement["unit",attrVal:{_Rule..},_]]:=(10^sbmlString2Number["sca
 
 parseListOfUnitsXML[XMLElement["listOfUnits",_,units_List]]:=Times@@(parseUnitXML/@units)
 
-makeValidSymbol=StringReplace[#,RegularExpression["([^a-zA-Z0-9])"]:>("$"<>ToString[ToCharacterCode["$1"][[1]]]<>"$")]&
+makeValidSymbol=StringReplace[#,RegularExpression["([^a-zA-Z0-9])"]:>(ToString[" "])]&
 parseUnitDefinitionXML[XMLElement["unitDefinition",attrVal:{_Rule..},listOfUnits_List]]:=Module[{},
 	("id"/.attrVal)->Quiet[
 		Check[
 			DeclareUnit[
 				StringReplace[makeValidSymbol[query["name", attrVal, "id"/.attrVal]],
-					{"(new default)"->"","(default)"->"","_"->"",Whitespace->""}],
+					{"(new default)"->"","(default)"->"","_"->"","default"->"",Whitespace->""}],
 				(parseListOfUnitsXML[extractXMLelement[listOfUnits,"listOfUnits",0][[1]]])
-			],DeclareUnit["stub"<>ToString[Unique[]],
+			],(*DeclareUnit["stub"<>ToString[Unique[]],
 				(parseListOfUnitsXML[extractXMLelement[listOfUnits,"listOfUnits",0][[1]]])
-			],{Symbol::symname}
+			],*){Symbol::symname}
 		],{Unit::exists,General::shdw,Message::name}
 	]
 ];
@@ -346,7 +346,7 @@ getKineticLaw[XMLElement["kineticLaw",attrVal:{_Rule...},data_List],rxnID_String
 ];
 
 
-(* ::Subsubsection::Closed:: *)
+(* ::Subsubsection:: *)
 (*parameters*)
 
 
@@ -537,7 +537,7 @@ sbml2model::nestedAnnotations="Nested annotation detected. The MASS Toolbox does
 sbml2model[xml_/;Head[xml]===XMLObject["Document"],opts:OptionsPattern[]]:=Module[{hosuRules,listOfUnitDefinitions,listOfFunctionDefinitions,listOfCompartments,compartmentVolumes,listOfParameters,parameters,
 listOfSpecies,initialConditions,boundaryConditions,id2massID,listOfRxns,listOfRules,assignmentRules,rateRules,algebraicRules,listOfInitialAssignments,
 listOfKineticLawsAndLocalParameters,listOfKineticLaws,listOfLocalParameters,speciesInReactions,notCoveredByReactions,customODE,constantSpecies,paramInListOfRules,
-constParam,speciesIDs2names,modelID,modelName,notes,modelStuff,hasOnlySubstanceUnits,listOfEvents,listOfAnnotations},
+constParam,speciesIDs2names,modelID,modelName,notes,modelStuff,hasOnlySubstanceUnits,listOfEvents,listOfAnnotations,(*Vanesssa - added local variables*)attrVal,  value,units},
 
 	Switch[OptionValue["Method"],
 		"Full",
@@ -552,7 +552,7 @@ constParam,speciesIDs2names,modelID,modelName,notes,modelStuff,hasOnlySubstanceU
 
 		listOfCompartments=getListOfCompartments[xml];
 		(*compartmentIDs2names=DeleteCases[(#[[1]]->query["name",#[[2]],Undefined]&/@listOfCompartments)/.elem_[t]:>elem,r_Rule/;r[[2]]===Undefined];*)
-		
+			
 		listOfParameters=getListOfParameters[xml];
 		parameters=getParameterValues[listOfParameters,listOfUnitDefinitions];
 		
@@ -841,7 +841,7 @@ Module[{modelStuff,modelID,modelName,layouts,layout,height,compartmentGlyphs,spe
 ]
 
 
-(* ::Subsection:: *)
+(* ::Subsection::Closed:: *)
 (*SBML export*)
 
 
