@@ -1,0 +1,1449 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     59403,       1441]
+NotebookOptionsPosition[     57386,       1393]
+NotebookOutlinePosition[     57733,       1408]
+CellTagsIndexPosition[     57690,       1405]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"<<", 
+     RowBox[{"C", ":", 
+      RowBox[{
+       RowBox[{
+       "\\", "Users", "\\", "NRI", "\\", "Desktop", "\\", "SBML", "\\", 
+        "MASS"}], "-", "Toolbox", "-", 
+       RowBox[{"master", "\\", "Toolbox", "\\", 
+        RowBox[{"Util", ".", "m"}]}]}]}]}], ";"}], "*)"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"<<", "Toolbox`"}], "\[IndentingNewLine]", 
+   RowBox[{"<<", "Toolbox`Style`"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"xml", "=", 
+      RowBox[{"Import", "[", 
+       RowBox[{"\"\<Documents\\\\temp.xml\>\"", ",", "\"\<XML\>\""}], "]"}]}],
+      ";"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"model", "=", 
+     RowBox[{"biomomdel2model", "[", "\"\<BIOMD0000000027\>\"", "]"}]}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"model", "=", 
+      RowBox[{
+      "sbml2model", "[", 
+       "\"\<C:\\\\Users\\\\NRI\\\\Desktop\\\\SBML\\\\BIOMD0000000072.xml\>\"",
+        "]"}]}], ";"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xml1", "=", 
+     RowBox[{"Import", "[", 
+      RowBox[{
+      "\"\<C:\\\\Users\\\\NRI\\\\Desktop\\\\SBML\\\\BIOMD0000000072.xml\>\"", 
+       ",", "\"\<XML\>\""}], "]"}]}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.7119992033446765`*^9, 3.7119992287511854`*^9}, {
+   3.7120029047861757`*^9, 3.712002948734756*^9}, {3.712003726778969*^9, 
+   3.7120037290603304`*^9}, {3.71200500112353*^9, 3.712005002857995*^9}, {
+   3.712074856843865*^9, 3.712074859250237*^9}, {3.7123345281147976`*^9, 
+   3.712334529880517*^9}, {3.7123353873353205`*^9, 3.712335388366622*^9}, {
+   3.712335438631648*^9, 3.712335479398*^9}, {3.7123357444182825`*^9, 
+   3.712335770230156*^9}, {3.712335834256542*^9, 3.7123358415068817`*^9}, {
+   3.7123370559077454`*^9, 3.712337089367764*^9}, {3.7143334386027927`*^9, 
+   3.7143334415092134`*^9}, 3.7144127930498905`*^9, 3.7144147699163985`*^9, {
+   3.714414928838752*^9, 3.7144149407160273`*^9}, {3.714415551828863*^9, 
+   3.7144156006171303`*^9}, {3.714415682416147*^9, 3.7144156904467726`*^9}, 
+   3.7144158060014205`*^9, 3.7144184978054914`*^9, {3.7144189162142005`*^9, 
+   3.7144189174329743`*^9}, {3.7144206593720427`*^9, 
+   3.7144206602314653`*^9}, {3.7144951855165977`*^9, 3.71449518615726*^9}, {
+   3.714504849478366*^9, 3.7145048575256233`*^9}, 3.7145049196444626`*^9, {
+   3.714505981910612*^9, 3.714505985113905*^9}, {3.714506944005275*^9, 
+   3.714506948160731*^9}, 3.7159827475995674`*^9, {3.71632967640427*^9, 
+   3.7163296817482586`*^9}, {3.7169134060181627`*^9, 
+   3.7169134175820727`*^9}},ExpressionUUID->"58a669a6-dce8-4437-bd22-\
+3d91acc1fb9c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"sbmlDefaultUnits", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\"\<substance\>\"", "\[Rule]", "Mole"}], ",", 
+       RowBox[{"\"\<volume\>\"", "\[Rule]", "Liter"}], ",", 
+       RowBox[{"\"\<area\>\"", "\[Rule]", 
+        RowBox[{"Meter", "^", "2"}]}], ",", 
+       RowBox[{"\"\<length\>\"", "\[Rule]", "Meter"}], ",", 
+       RowBox[{"\"\<time\>\"", "\[Rule]", "Second"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"sbmlBaseUnit2mathematica", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\"\<ampere\>\"", "->", "Ampere"}], ",", 
+       RowBox[{"\"\<avogadro\>\"", "->", "Mole"}], ",", 
+       RowBox[{"\"\<becquerel\>\"", "->", "Becquerel"}], ",", 
+       RowBox[{"\"\<candela\>\"", "->", "Candela"}], ",", 
+       RowBox[{"\"\<coulomb\>\"", "->", "Coulomb"}], ",", 
+       RowBox[{"\"\<dimensionless\>\"", "->", "1"}], ",", 
+       RowBox[{"\"\<farad\>\"", "->", "Farad"}], ",", 
+       RowBox[{"\"\<joule\>\"", "->", "Joule"}], ",", 
+       RowBox[{"\"\<lux\>\"", "->", "Lux"}], ",", 
+       RowBox[{"\"\<gram\>\"", "->", "Gram"}], ",", 
+       RowBox[{"\"\<katal\>\"", "->", 
+        RowBox[{"Mole", "/", "Second"}]}], ",", 
+       RowBox[{"\"\<metre\>\"", "->", "Meter"}], ",", 
+       RowBox[{"\"\<gray\>\"", "->", 
+        RowBox[{"GrayLevel", "[", "0.5`", "]"}]}], ",", 
+       RowBox[{"\"\<kelvin\>\"", "->", "Kelvin"}], ",", 
+       RowBox[{"\"\<mole\>\"", "->", "Mole"}], ",", "\n", 
+       RowBox[{"\"\<henry\>\"", "->", "Henry"}], ",", 
+       RowBox[{"\"\<kilogram\>\"", "->", 
+        RowBox[{"Gram", " ", "Kilo"}]}], ",", 
+       RowBox[{"\"\<newton\>\"", "->", "Newton"}], ",", 
+       RowBox[{"\"\<hertz\>\"", "->", "Hertz"}], ",", 
+       RowBox[{"\"\<litre\>\"", "->", "Liter"}], ",", 
+       RowBox[{"\"\<ohm\>\"", "->", "Ohm"}], ",", 
+       RowBox[{"\"\<item\>\"", "->", "itemUnit"}], ",", 
+       RowBox[{"\"\<lumen\>\"", "->", "Lumen"}], ",", 
+       RowBox[{"\"\<pascal\>\"", "->", "Pascal"}], ",", 
+       RowBox[{"\"\<radian\>\"", "->", "Radian"}], ",", "\n", 
+       RowBox[{"\"\<volt\>\"", "->", "Volt"}], ",", 
+       RowBox[{"\"\<second\>\"", "->", "Second"}], ",", 
+       RowBox[{"\"\<watt\>\"", "->", "Watt"}], ",", 
+       RowBox[{"\"\<siemens\>\"", "->", "Siemens"}], ",", 
+       RowBox[{"\"\<weber\>\"", "->", "Weber"}], ",", 
+       RowBox[{"\"\<sievert\>\"", "->", 
+        RowBox[{"Joule", "/", 
+         RowBox[{"(", 
+          RowBox[{"Gram", " ", "Kilo"}], ")"}]}]}], ",", 
+       RowBox[{"\"\<steradian\>\"", "->", "Steradian"}], ",", 
+       RowBox[{"\"\<tesla\>\"", "->", "Tesla"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+     "checking", " ", "support", " ", "of", " ", "parameters", " ", "in", " ",
+       "events"}], " ", "-", " ", 
+     RowBox[{"not", " ", "supported"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"MemberQ", "[", 
+        RowBox[{"xml", ",", "\"\<conversionFactor\>\"", ",", "\[Infinity]"}], 
+        "]"}], ",", 
+       RowBox[{
+        RowBox[{"Message", "[", 
+         RowBox[{"sbml2model", "::", "conversionFactorDetected"}], "]"}], 
+        ";"}]}], "]"}], ";", "\[IndentingNewLine]", "\t", 
+     RowBox[{"modelStuff", "=", 
+      RowBox[{
+       RowBox[{"extractXMLelement", "[", 
+        RowBox[{"xml", ",", "\"\<model\>\"", ",", "0", ",", "3"}], "]"}], "[", 
+       RowBox[{"[", "1", "]"}], "]"}]}], ";"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"modelStuff", "=", 
+     RowBox[{
+      RowBox[{"Cases", "[", 
+       RowBox[{"xml", ",", 
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<model\>\"", ",", "_", ",", "_"}], "]"}], ",", 
+        "\[Infinity]"}], "]"}], "[", 
+      RowBox[{"[", "1", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"modelID", "=", 
+      RowBox[{"query", "[", 
+       RowBox[{"\"\<id\>\"", ",", 
+        RowBox[{"modelStuff", "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}], "]"}]}], ";"}], "\t", "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"modelID", "=", 
+     RowBox[{"\"\<id\>\"", "/.", " ", 
+      RowBox[{"modelStuff", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"modelName", "=", 
+      RowBox[{"query", "[", 
+       RowBox[{"\"\<name\>\"", ",", 
+        RowBox[{"modelStuff", "[", 
+         RowBox[{"[", "2", "]"}], "]"}], ",", "modelID"}], "]"}]}], ";"}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"modelName", "=", 
+     RowBox[{"\"\<name\>\"", "/.", " ", 
+      RowBox[{"modelStuff", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"notes", "=", 
+      RowBox[{"Cases", "[", 
+       RowBox[{"xml", ",", 
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<notes\>\"", ",", "_", ",", "_"}], "]"}], ",", 
+        "\[Infinity]"}], "]"}]}], ";"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"notes", "=", 
+     RowBox[{"ImportString", "[", 
+      RowBox[{
+       RowBox[{"ExportString", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Replace", "[", 
+           RowBox[{
+            RowBox[{"Cases", "[", 
+             RowBox[{"xml", ",", 
+              RowBox[{
+               RowBox[{"XMLElement", "[", 
+                RowBox[{"\"\<notes\>\"", ",", "attrVal_", ",", "data_"}], 
+                "]"}], ":>", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"attrVal", ",", "data"}], "}"}], "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}], ",", "\[Infinity]"}], "]"}],
+             ",", 
+            RowBox[{
+             RowBox[{"{", "}"}], "->", 
+             RowBox[{"{", 
+              RowBox[{"{", "}"}], "}"}]}]}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], ",", "\"\<XML\>\""}], "]"}], ",", 
+       "\"\<XHTML\>\""}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listunits", "=", 
+     RowBox[{
+      RowBox[{"Replace", "[", 
+       RowBox[{
+        RowBox[{"Cases", "[", 
+         RowBox[{"xml", ",", 
+          RowBox[{
+           RowBox[{"XMLElement", "[", 
+            RowBox[{
+            "\"\<listOfUnitDefinitions\>\"", ",", "attrVal_", ",", "data_"}], 
+            "]"}], ":>", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"attrVal", ",", "data"}], "}"}], "[", 
+            RowBox[{"[", "2", "]"}], "]"}]}], ",", "\[Infinity]"}], "]"}], 
+        ",", 
+        RowBox[{
+         RowBox[{"{", "}"}], "->", 
+         RowBox[{"{", 
+          RowBox[{"{", "}"}], "}"}]}]}], "]"}], "[", 
+      RowBox[{"[", "1", "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listunits", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\"\<id\>\"", "/.", 
+          RowBox[{"Dispatch", "[", 
+           RowBox[{"#", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "]"}]}], ")"}], "->", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"\"\<name\>\"", "/.", 
+            RowBox[{"Dispatch", "[", 
+             RowBox[{"#", "[", 
+              RowBox[{"[", "2", "]"}], "]"}], "]"}]}], ")"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"\"\<(new default)\>\"", "->", "\"\<\>\""}], ",", 
+            RowBox[{"\"\<(default)\>\"", "->", "\"\<\>\""}], ",", 
+            RowBox[{"\"\<_\>\"", "->", "\"\<\>\""}], ",", 
+            RowBox[{"\"\<default\>\"", "->", "\"\<\>\""}], ",", 
+            RowBox[{"Whitespace", "->", "\"\<\>\""}]}], "}"}]}], "]"}]}], 
+       "&"}], "/@", "listunits"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"\"\<name\>\"", "/.", "#"}], "/.", 
+        RowBox[{"\"\<name\>\"", "->", "\"\<Indeterminate\>\""}]}], "/.", 
+       "#"}], "&"}], "@", "listunits"}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listOfUnitDefinitions", "=", 
+     RowBox[{"Join", "[", 
+      RowBox[{
+       RowBox[{"updateRules", "[", 
+        RowBox[{"sbmlDefaultUnits", ",", "listunits"}], "]"}], ",", 
+       "sbmlBaseUnit2mathematica", ",", 
+       RowBox[{"{", 
+        RowBox[{"elem_String", ":>", 
+         RowBox[{"Unit", "[", 
+          RowBox[{"1", ",", "elem"}], "]"}]}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"listOfFunctionDefinitions", "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"attrVal", "=", 
+     RowBox[{"Cases", "[", 
+      RowBox[{"xml", ",", 
+       RowBox[{
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<compartment\>\"", ",", "attrb_", ",", "_"}], "]"}], 
+        "\[RuleDelayed]", "attrb"}], ",", "\[Infinity]"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listOfCompartments", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ToLowerCase", "@", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"\"\<constant\>\"", "/.", "#"}], "/.", 
+              RowBox[{"\"\<constant\>\"", "->", "\"\<true\>\""}]}], ")"}]}], 
+           "===", "\"\<false\>\""}], ",", 
+          RowBox[{
+           RowBox[{"parameter", "[", 
+            RowBox[{"\"\<Volume\>\"", ",", 
+             RowBox[{"(", 
+              RowBox[{"\"\<id\>\"", "/.", "#"}], ")"}]}], "]"}], "[", "t", 
+           "]"}], ",", 
+          RowBox[{"parameter", "[", 
+           RowBox[{"\"\<Volume\>\"", ",", 
+            RowBox[{"(", 
+             RowBox[{"\"\<id\>\"", "/.", "#"}], ")"}]}], "]"}]}], "]"}], 
+        "&"}], "/@", "attrVal"}], "->", 
+      RowBox[{"FilterRules", "[", 
+       RowBox[{"attrVal", ",", 
+        RowBox[{"Except", "[", "\"\<id\>\"", "]"}]}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"attrVal", "=", 
+     RowBox[{"Cases", "[", 
+      RowBox[{"xml", ",", 
+       RowBox[{
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<parameter\>\"", ",", "attrb_", ",", "_"}], "]"}], 
+        "\[RuleDelayed]", "attrb"}], ",", "\[Infinity]"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listOfParameters", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"\"\<constant\>\"", "/.", "#"}], ")"}], "===", 
+           "\"\<true\>\""}], ",", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"parameter", "[", "\"\<id\>\"", "]"}], "/.", "#"}], ")"}],
+           ",", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"parameter", "[", "\"\<id\>\"", "]"}], "/.", "#"}], 
+            ")"}], "[", "t", "]"}]}], "]"}], "&"}], "/@", "attrVal"}], 
+      "\[Rule]", "attrVal"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"value", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"\"\<value\>\"", "/.", "#"}], "/.", 
+         RowBox[{"\"\<value\>\"", "->", "\"\<Indeterminate\>\""}]}], "/.", 
+        "#"}], "&"}], "/@", 
+      RowBox[{"listOfParameters", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"units", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"\"\<units\>\"", "/.", "#"}], "/.", 
+         RowBox[{"\"\<units\>\"", "->", "\"\<Indeterminate\>\""}]}], "/.", 
+        "#"}], "&"}], "/@", 
+      RowBox[{"listOfParameters", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"parameters", "=", 
+     RowBox[{"MapThread", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"#2", "\[Rule]", "#1"}], "&"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Flatten", "@", 
+          RowBox[{"(", 
+           RowBox[{"value", "*", "units"}], ")"}]}], ",", 
+         RowBox[{"Flatten", "@", 
+          RowBox[{"listOfParameters", "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}]}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"constParam", "=", 
+     RowBox[{"FilterRules", "[", 
+      RowBox[{"parameters", ",", 
+       RowBox[{"Except", "[", 
+        RowBox[{"_", "[", "t", "]"}], "]"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"atv", "=", 
+     RowBox[{"Cases", "[", 
+      RowBox[{"xml", ",", 
+       RowBox[{
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<species\>\"", ",", "attrb_", ",", "_"}], "]"}], 
+        "\[RuleDelayed]", "attrb"}], ",", "\[Infinity]"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listOfSpecies", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"ToLowerCase", "@", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"\"\<constant\>\"", "/.", "#"}], "/.", 
+              RowBox[{"\"\<constant\>\"", "\[Rule]", "\"\<False\>\""}]}], 
+             ")"}]}], "===", 
+           RowBox[{"(", "\"\<false\>\"", ")"}]}], ",", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"species", "[", 
+              RowBox[{"\"\<id\>\"", ",", "\"\<compartment\>\""}], "]"}], "/.",
+              "#"}], ")"}], "[", "t", "]"}], ",", " ", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"species", "[", 
+             RowBox[{"\"\<id\>\"", ",", "\"\<compartment\>\""}], "]"}], "/.", 
+            "#"}], ")"}]}], "]"}], "&"}], "/@", "atv"}], "\[Rule]", " ", 
+      "atv"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"constantSpecies", "=", 
+     RowBox[{"Cases", "[", 
+      RowBox[{
+       RowBox[{"listOfSpecies", "[", 
+        RowBox[{"[", "1", "]"}], "]"}], ",", "_species"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"speciesIDs2names", "=", 
+     RowBox[{"DeleteCases", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"MapThread", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"#1", "\[Rule]", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"\"\<name\>\"", "/.", "#2"}], "/.", 
+               RowBox[{"\"\<name\>\"", "->", "Undefined"}]}], "}"}]}], "&"}], 
+           ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"listOfSpecies", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], ",", 
+             RowBox[{"listOfSpecies", "[", 
+              RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}], ")"}], "/.", 
+        RowBox[{
+         RowBox[{"elem_", "[", "t", "]"}], "\[RuleDelayed]", "elem"}]}], ",", 
+       RowBox[{"r_Rule", "/;", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"r", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "===", "Undefined"}]}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"id2massID", "=", 
+     RowBox[{"Join", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"getID", "[", 
+           RowBox[{"#", "/.", 
+            RowBox[{
+             RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], "->", 
+          "#"}], "&"}], "/@", 
+        RowBox[{"listOfSpecies", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"getID", "[", 
+            RowBox[{"#", "/.", 
+             RowBox[{
+              RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "->", "#"}], "&"}], "/@", 
+        RowBox[{"listOfCompartments", "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Length", "[", "#", "]"}], ">", "1"}], ",", 
+              RowBox[{"#", "[", 
+               RowBox[{"[", "1", "]"}], "]"}], ",", "#"}], "]"}], "&"}], "[", 
+           RowBox[{"getID", "[", 
+            RowBox[{"#", "/.", 
+             RowBox[{
+              RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], 
+           "]"}], "->", "#"}], "&"}], "/@", 
+        RowBox[{"DeleteCases", "[", 
+         RowBox[{
+          RowBox[{"listOfParameters", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], ",", 
+          RowBox[{"parameter", "[", 
+           RowBox[{"\"\<Volume\>\"", ",", "_"}], "]"}]}], "]"}]}]}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"listOfInitialAssignments", "="}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"assignmentRules", "=", 
+     RowBox[{"FilterRules", "[", 
+      RowBox[{
+       RowBox[{"Cases", "[", 
+        RowBox[{"xml", ",", 
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<listOfRules\>\"", ",", "_", ",", "_"}], "]"}], ",", 
+         "\[Infinity]"}], "]"}], ",", "\"\<assignmentRule\>\""}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"compartmentVolumes", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"#1", "[", 
+         RowBox[{"[", "1", "]"}], "]"}], "->", 
+        RowBox[{
+         RowBox[{"sbmlString2Number", "[", 
+          RowBox[{"\"\<size\>\"", "/.", "#2"}], "]"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"\"\<units\>\"", "/.", "#2"}], "/.", 
+           RowBox[{"Dispatch", "[", "listOfUnitDefinitions", "]"}]}], 
+          ")"}]}]}], "&"}], "@@", "listOfCompartments"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"parameters", "=", 
+     RowBox[{"Join", "[", "\[IndentingNewLine]", 
+      RowBox[{"parameters", ",", 
+       RowBox[{"FilterRules", "[", 
+        RowBox[{"compartmentVolumes", ",", 
+         RowBox[{"parameter", "[", 
+          RowBox[{"\"\<Volume\>\"", ",", "_String"}], "]"}]}], "]"}]}], 
+      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"init", " ", "Conditions"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"unit", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"\"\<substanceUnits\>\"", "/.", "#2"}], "/.", 
+          RowBox[{"\"\<substanceUnits\>\"", "->", "\"\<substance\>\""}]}], 
+         ")"}], "/.", 
+        RowBox[{"Dispatch", "[", "listOfUnitDefinitions", "]"}]}], "&"}], "@@", 
+      RowBox[{"(", 
+       RowBox[{"listOfSpecies", "/.", 
+        RowBox[{
+         RowBox[{"elem_", "[", "t", "]"}], "\[RuleDelayed]", "elem"}]}], 
+       ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"volume", "=", 
+     RowBox[{"\"\<volume\>\"", "/.", "listOfUnitDefinitions"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"init", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"\"\<initialConcentration\>\"", "/.", "#2"}], "&"}], "@@", 
+      RowBox[{"(", 
+       RowBox[{"listOfSpecies", "/.", 
+        RowBox[{
+         RowBox[{"elem_", "[", "t", "]"}], "\[RuleDelayed]", "elem"}]}], 
+       ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"init", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"sbmlString2Number", "[", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"\"\<initialAmount\>\"", "/.", "#2"}], "/.", 
+              RowBox[{
+              "\"\<initialAmount\>\"", "\[Rule]", "\"\<Indeterminate\>\""}]}],
+              ")"}], "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}], "*", "unit"}], ")"}], "/", 
+        RowBox[{"parameter", "[", 
+         RowBox[{"\"\<Volume\>\"", ",", 
+          RowBox[{"getCompartment", "[", 
+           RowBox[{"#1", "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "]"}]}], "&"}], "@@", 
+      RowBox[{"(", 
+       RowBox[{"listOfSpecies", "/.", 
+        RowBox[{
+         RowBox[{"elem_", "[", "t", "]"}], "\[RuleDelayed]", "elem"}]}], 
+       ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"init", "=", 
+     RowBox[{"init", "*", "unit", "*", 
+      RowBox[{"volume", "^", 
+       RowBox[{"-", "1"}]}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"initialConditions", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"#1", "\[Rule]", "init"}], "&"}], "@@", 
+       RowBox[{"(", 
+        RowBox[{"listOfSpecies", "/.", 
+         RowBox[{
+          RowBox[{"elem_", "[", "t", "]"}], "\[RuleDelayed]", "elem"}]}], 
+        ")"}]}], "/.", 
+      RowBox[{"Dispatch", "[", "compartmentVolumes", "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"END", " ", "-", " ", 
+     RowBox[{"initial", " ", "Conditions"}]}], "*)"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"hasOnlySubstanceUnits", "=", 
+     RowBox[{"MapThread", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"\"\<hasOnlySubstanceUnits\>\"", "/.", "#2"}], "/.", 
+              RowBox[{
+              "\"\<hasOnlySubstanceUnits\>\"", "->", "\"\<false\>\""}]}], 
+             ")"}], "/.", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"\"\<true\>\"", "->", "True"}], ",", 
+              RowBox[{"\"\<false\>\"", "->", "False"}]}], "}"}]}], ")"}], ",", 
+          RowBox[{"stripTime", "@", "#1"}], ",", 
+          RowBox[{"Unevaluated", "[", 
+           RowBox[{"Sequence", "[", "]"}], "]"}]}], "]"}], "&"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"listOfSpecies", "[", 
+          RowBox[{"[", "1", "]"}], "]"}], ",", 
+         RowBox[{"listOfSpecies", "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Replacing", " ", "parseReactionXML"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"id", "=", 
+     RowBox[{"\"\<id\>\"", "/.", 
+      RowBox[{"Cases", "[", 
+       RowBox[{"xml", ",", 
+        RowBox[{
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<reaction\>\"", ",", "att_", ",", "_List"}], "]"}], 
+         "\[RuleDelayed]", "att"}], ",", "\[Infinity]"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fastQ", "=", 
+     RowBox[{
+      RowBox[{"\"\<fast\>\"", "/.", 
+       RowBox[{"Cases", "[", 
+        RowBox[{"xml", ",", 
+         RowBox[{
+          RowBox[{"XMLElement", "[", 
+           RowBox[{"\"\<reaction\>\"", ",", "att_", ",", "_List"}], "]"}], 
+          "\[RuleDelayed]", "att"}], ",", "\[Infinity]"}], "]"}]}], "/.", 
+      RowBox[{"\"\<fast\>\"", "\[Rule]", "\"\<false\>\""}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "fast", " ", "is", " ", "required", " ", "in", " ", "level", " ", "3"}], 
+    "*)"}], " ", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"#", "===", "\"\<true\>\""}], ")"}], ",", 
+        RowBox[{"Message", "[", 
+         RowBox[{
+          RowBox[{"parseReactionXML", "::", "fastReactionDetected"}], ",", 
+          "id"}], "]"}]}], "]"}], "&"}], "/@", "fastQ"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "reversible", " ", "is", " ", "required", " ", "in", " ", "level", " ", 
+     "3", " ", "defaul", " ", "is", " ", "true", " ", "in", " ", "level", " ",
+      "2"}], "*)"}], " ", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"revQ", "=", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"\"\<reversible\>\"", "/.", 
+        RowBox[{"Cases", "[", 
+         RowBox[{"xml", ",", 
+          RowBox[{
+           RowBox[{"XMLElement", "[", 
+            RowBox[{"\"\<reaction\>\"", ",", "att_", ",", "_List"}], "]"}], 
+           "\[RuleDelayed]", "att"}], ",", "\[Infinity]"}], "]"}]}], ")"}], "/.", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"\"\<reversible\>\"", "->", "True"}], ",", 
+        RowBox[{"\"\<true\>\"", "->", "True"}], ",", 
+        RowBox[{"\"\<false\>\"", "->", "False"}]}], "}"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"replacing", " ", "getLisOfReactants"}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Level", " ", "3", " ", "Version", " ", "1", " ", "does", " ", "not", " ",
+      "use", " ", "stoichiometryMath"}], "*)"}], 
+   RowBox[{
+    RowBox[{"listOfReactants", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\"\<species\>\"", "/.", 
+          RowBox[{"Cases", "[", 
+           RowBox[{"#", ",", 
+            RowBox[{
+             RowBox[{"XMLElement", "[", 
+              RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+              "]"}], "\[RuleDelayed]", "att"}]}], "]"}]}], ")"}], "\[Rule]", 
+        RowBox[{"FilterRules", "[", 
+         RowBox[{
+          RowBox[{"Cases", "[", 
+           RowBox[{"#", ",", 
+            RowBox[{
+             RowBox[{"XMLElement", "[", 
+              RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+              "]"}], "\[RuleDelayed]", "att"}]}], "]"}], ",", 
+          RowBox[{"Except", "[", "\"\<species\>\"", "]"}]}], "]"}]}], "&"}], "/@", 
+      RowBox[{"Cases", "[", 
+       RowBox[{"xml", ",", 
+        RowBox[{
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<listOfReactants\>\"", ",", "_", ",", "attr_"}], "]"}], 
+         ":>", "attr"}], ",", "\[Infinity]"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listOfProducts", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\"\<species\>\"", "/.", 
+          RowBox[{"Cases", "[", 
+           RowBox[{"#", ",", 
+            RowBox[{
+             RowBox[{"XMLElement", "[", 
+              RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+              "]"}], "\[RuleDelayed]", "att"}]}], "]"}]}], ")"}], "\[Rule]", 
+        RowBox[{"FilterRules", "[", 
+         RowBox[{
+          RowBox[{"Cases", "[", 
+           RowBox[{"#", ",", 
+            RowBox[{
+             RowBox[{"XMLElement", "[", 
+              RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+              "]"}], "\[RuleDelayed]", "att"}]}], "]"}], ",", 
+          RowBox[{"Except", "[", "\"\<species\>\"", "]"}]}], "]"}]}], "&"}], "/@", 
+      RowBox[{"Cases", "[", 
+       RowBox[{"xml", ",", 
+        RowBox[{
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<listOfProducts\>\"", ",", "_", ",", "attr_"}], "]"}], ":>",
+          "attr"}], ",", "\[Infinity]"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"substr", "=", " ", 
+     RowBox[{
+      RowBox[{"listOfReactants", "[", 
+       RowBox[{"[", 
+        RowBox[{"All", ",", "1"}], "]"}], "]"}], "/.", 
+      RowBox[{"Dispatch", "[", "id2massID", "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prod", " ", "=", 
+     RowBox[{
+      RowBox[{"listOfProducts", "[", 
+       RowBox[{"[", 
+        RowBox[{"All", ",", "1"}], "]"}], "]"}], "/.", 
+      RowBox[{"Dispatch", "[", "id2massID", "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"End", " ", "of", " ", "parseReactionXML"}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"listOfRxns", "="}], "*)"}], "\t"}]}]], "Input",
+ CellChangeTimes->{
+  3.7119991749885*^9, {3.7119992531240635`*^9, 3.711999333353055*^9}, {
+   3.7119994984016533`*^9, 3.7119994988079233`*^9}, {3.7119995612632303`*^9, 
+   3.7119995664978724`*^9}, {3.7120027915647745`*^9, 
+   3.7120027918772893`*^9}, {3.7120028379753323`*^9, 
+   3.7120028529891396`*^9}, {3.712003197561884*^9, 3.7120032112334204`*^9}, 
+   3.7120035038330307`*^9, {3.712003546992705*^9, 3.7120035546653423`*^9}, {
+   3.7120036086197033`*^9, 3.7120036236509376`*^9}, {3.7120037400393343`*^9, 
+   3.712003750274184*^9}, 3.712005197119771*^9, 3.7120058664684687`*^9, {
+   3.7120060064432783`*^9, 3.7120060145640717`*^9}, {3.712076711400872*^9, 
+   3.71207673753415*^9}, {3.7120767912072616`*^9, 3.7120768094467835`*^9}, {
+   3.712077205044862*^9, 3.7120772156356273`*^9}, {3.7120775443084283`*^9, 
+   3.712077552292076*^9}, {3.712079009550329*^9, 3.71207901000348*^9}, {
+   3.71207905002875*^9, 3.71207905246637*^9}, 3.7120793775615463`*^9, {
+   3.71207940982796*^9, 3.7120794134986544`*^9}, {3.7120811329688935`*^9, 
+   3.7120811332501583`*^9}, {3.7120850665581007`*^9, 
+   3.7120850992201166`*^9}, {3.71233377301313*^9, 3.7123337799367294`*^9}, {
+   3.712333924939418*^9, 3.712333948622098*^9}, {3.7123340678640933`*^9, 
+   3.7123340696766896`*^9}, {3.712334262206895*^9, 3.7123342674102917`*^9}, 
+   3.7123345362871017`*^9, 3.712334576739908*^9, {3.712334812555603*^9, 
+   3.712334814055643*^9}, {3.712334873222679*^9, 3.712334873957094*^9}, {
+   3.712338890234781*^9, 3.712338890719178*^9}, {3.7123398230938177`*^9, 
+   3.712339846728204*^9}, {3.714255024532553*^9, 3.71425502550133*^9}, {
+   3.714320739950349*^9, 3.714320748111387*^9}, 3.7143208178186917`*^9, {
+   3.7143240503494587`*^9, 3.7143240510213304`*^9}, 3.7143243428331623`*^9, {
+   3.7143246791435027`*^9, 3.7143246809404354`*^9}, {3.714325495125543*^9, 
+   3.7143254968287754`*^9}, {3.7143255672112103`*^9, 3.7143255691488075`*^9}, 
+   3.714326073222116*^9, {3.714333135591967*^9, 3.7143331597359223`*^9}, {
+   3.714333494356083*^9, 3.714333496104664*^9}, 3.714412846501268*^9, {
+   3.7144198239783745`*^9, 3.714419826154245*^9}, {3.7144208021035852`*^9, 
+   3.7144208240011315`*^9}, {3.7144213225499315`*^9, 3.714421359335142*^9}, {
+   3.714426194618061*^9, 3.714426196845584*^9}, {3.714428368076475*^9, 
+   3.7144283740334454`*^9}, {3.7144286021110916`*^9, 
+   3.7144286095713716`*^9}, {3.714501538302494*^9, 3.7145015497002897`*^9}, {
+   3.714501599162056*^9, 3.7145016223338556`*^9}, 3.7145016988861346`*^9, {
+   3.7145023196890697`*^9, 3.714502321782926*^9}, {3.7145023677665167`*^9, 
+   3.7145023681727996`*^9}, {3.7145027219067917`*^9, 
+   3.7145027349317274`*^9}, {3.714505812525564*^9, 3.714505823087373*^9}, {
+   3.714514980913689*^9, 3.7145149889313307`*^9}, {3.71451516037643*^9, 
+   3.714515163798481*^9}, 3.7154545829526143`*^9, {3.715536929417063*^9, 
+   3.7155369449491177`*^9}, {3.715536982265309*^9, 3.7155369837810497`*^9}, 
+   3.715537041158983*^9, 3.715551654727621*^9, {3.715553432747944*^9, 
+   3.715553434591755*^9}, {3.7159791790635166`*^9, 3.71597918757236*^9}, {
+   3.715987078295088*^9, 3.715987110905525*^9}, {3.7165766111647387`*^9, 
+   3.716576617102522*^9}, 
+   3.716925507994522*^9},ExpressionUUID->"f9413f40-ae23-4e1a-becc-\
+af6600cb1a29"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Join","heads",
+   "\"Heads \\!\\(\\*RowBox[{\\\"updateRules\\\"}]\\) and \\!\\(\\*RowBox[{\\\
+\"List\\\"}]\\) at positions \\!\\(\\*RowBox[{\\\"1\\\"}]\\) and \
+\\!\\(\\*RowBox[{\\\"2\\\"}]\\) are expected to be the same.\"",2,13,1,
+   17874791818247159779,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.716913386313139*^9, 
+  3.7169134917677097`*^9},ExpressionUUID->"9bf8dc64-5331-43cd-8b0e-\
+a4fd9bcdee59"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Part","partw",
+   "\"Part \\!\\(\\*RowBox[{\\\"2\\\"}]\\) of \\!\\(\\*RowBox[{\\\"getID\\\", \
+\\\"[\\\", RowBox[{\\\"parameter\\\", \\\"[\\\", RowBox[{\\\"\\\\\\\"Volume\\\
+\\\\\"\\\", \\\",\\\", \\\"\\\\\\\"Cytosol\\\\\\\"\\\"}], \\\"]\\\"}], \
+\\\"]\\\"}]\\) does not exist.\"",2,26,2,17874791818247159779,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.716913386313139*^9, 
+  3.7169134918072357`*^9},ExpressionUUID->"c7830713-5077-4987-a0a3-\
+a2b793b8dfac"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Part","partw",
+   "\"Part \\!\\(\\*RowBox[{\\\"2\\\"}]\\) of \\!\\(\\*RowBox[{\\\"getID\\\", \
+\\\"[\\\", RowBox[{\\\"parameter\\\", \\\"[\\\", RowBox[{\\\"\\\\\\\"Volume\\\
+\\\\\"\\\", \\\",\\\", \\\"\\\\\\\"uVol\\\\\\\"\\\"}], \\\"]\\\"}], \
+\\\"]\\\"}]\\) does not exist.\"",2,26,3,17874791818247159779,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.716913386313139*^9, 
+  3.716913491839257*^9},ExpressionUUID->"ce213e97-c03d-4c1f-a3bb-\
+5f14bf1ffaa9"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "FilterRules","rep",
+   "\"\\!\\(\\*RowBox[{\\\"XMLElement\\\", \\\"[\\\", \
+RowBox[{\\\"\\\\\\\"listOfRules\\\\\\\"\\\", \\\",\\\", RowBox[{\\\"{\\\", \\\
+\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"1\\\", \\\"\[RightSkeleton]\\\"}], \\\"}\\\"}]}], \\\"]\\\"}]\\) is not a \
+valid replacement rule.\"",2,27,4,17874791818247159779,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.716913386313139*^9, 
+  3.7169134918697777`*^9},ExpressionUUID->"ecd37a99-fefb-42e5-99be-\
+93b14b16745f"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ReplaceAll","reps",
+   "\"\\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"Dispatch\\\", \\\"[\\\", \
+RowBox[{\\\"Join\\\", \\\"[\\\", RowBox[{RowBox[{\\\"updateRules\\\", \\\"[\\\
+\", RowBox[{RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"substance\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Mole\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"volume\\\\\\\"\\\", \
+\\\"\[Rule]\\\", \\\"Liter\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"area\\\\\\\"\
+\\\", \\\"\[Rule]\\\", SuperscriptBox[\\\"Meter\\\", \\\"2\\\"]}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"length\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"Meter\\\"}], \
+\\\",\\\", RowBox[{\\\"\\\\\\\"time\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Second\\\"}]}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"substance\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"\\\\\\\"name\\\\\\\"\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"volume\\\\\\\"\
+\\\", \\\"\[Rule]\\\", \\\"\\\\\\\"name\\\\\\\"\\\"}]}], \\\"}\\\"}]}], \\\"]\
+\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"ampere\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"Ampere\\\
+\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"avogadro\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Mole\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"becquerel\\\\\\\"\\\", \\\"\
+\[Rule]\\\", \\\"Becquerel\\\"}], \\\",\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"28\\\", \\\"\[RightSkeleton]\\\"}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"steradian\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Steradian\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"tesla\\\\\\\"\\\", \\\"\
+\[Rule]\\\", \\\"Tesla\\\"}]}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{\\\"elem_String\\\", \\\"\[RuleDelayed]\\\", RowBox[{\\\"Unit\\\", \\\
+\"[\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"elem\\\"}], \\\"]\\\"}]}], \\\"}\\\
+\"}]}], \\\"]\\\"}], \\\"]\\\"}], \\\"}\\\"}]\\) is neither a list of \
+replacement rules nor a valid dispatch table, and so cannot be used for \
+replacing.\"",2,28,5,17874791818247159779,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.716913386313139*^9, 
+  3.71691349200838*^9},ExpressionUUID->"825f8ba2-d847-4f12-8516-405b1eadcb2a"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Join","heads",
+   "\"Heads \\!\\(\\*RowBox[{\\\"updateRules\\\"}]\\) and \\!\\(\\*RowBox[{\\\
+\"List\\\"}]\\) at positions \\!\\(\\*RowBox[{\\\"1\\\"}]\\) and \
+\\!\\(\\*RowBox[{\\\"2\\\"}]\\) are expected to be the same.\"",2,28,6,
+   17874791818247159779,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.716913386313139*^9, 
+  3.7169134920383997`*^9},ExpressionUUID->"f6c0fdef-04fa-4b8c-9d4c-\
+a0d263f86d6f"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ReplaceAll","reps",
+   "\"\\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"Dispatch\\\", \\\"[\\\", \
+RowBox[{\\\"Join\\\", \\\"[\\\", RowBox[{RowBox[{\\\"updateRules\\\", \\\"[\\\
+\", RowBox[{RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"substance\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Mole\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"volume\\\\\\\"\\\", \
+\\\"\[Rule]\\\", \\\"Liter\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"area\\\\\\\"\
+\\\", \\\"\[Rule]\\\", SuperscriptBox[\\\"Meter\\\", \\\"2\\\"]}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"length\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"Meter\\\"}], \
+\\\",\\\", RowBox[{\\\"\\\\\\\"time\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Second\\\"}]}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"substance\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"\\\\\\\"name\\\\\\\"\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"volume\\\\\\\"\
+\\\", \\\"\[Rule]\\\", \\\"\\\\\\\"name\\\\\\\"\\\"}]}], \\\"}\\\"}]}], \\\"]\
+\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"ampere\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"Ampere\\\
+\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"avogadro\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Mole\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"becquerel\\\\\\\"\\\", \\\"\
+\[Rule]\\\", \\\"Becquerel\\\"}], \\\",\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"28\\\", \\\"\[RightSkeleton]\\\"}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"steradian\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Steradian\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"tesla\\\\\\\"\\\", \\\"\
+\[Rule]\\\", \\\"Tesla\\\"}]}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{\\\"elem_String\\\", \\\"\[RuleDelayed]\\\", RowBox[{\\\"Unit\\\", \\\
+\"[\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"elem\\\"}], \\\"]\\\"}]}], \\\"}\\\
+\"}]}], \\\"]\\\"}], \\\"]\\\"}], \\\"}\\\"}]\\) is neither a list of \
+replacement rules nor a valid dispatch table, and so cannot be used for \
+replacing.\"",2,28,7,17874791818247159779,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.716913386313139*^9, 
+  3.71691349206842*^9},ExpressionUUID->"a0ca9331-fd8c-47f4-b7e2-21ef754b92b2"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ReplaceAll","reps",
+   "\"\\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"Dispatch\\\", \\\"[\\\", \
+RowBox[{\\\"Join\\\", \\\"[\\\", RowBox[{RowBox[{\\\"updateRules\\\", \\\"[\\\
+\", RowBox[{RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"substance\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Mole\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"volume\\\\\\\"\\\", \
+\\\"\[Rule]\\\", \\\"Liter\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"area\\\\\\\"\
+\\\", \\\"\[Rule]\\\", SuperscriptBox[\\\"Meter\\\", \\\"2\\\"]}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"length\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"Meter\\\"}], \
+\\\",\\\", RowBox[{\\\"\\\\\\\"time\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Second\\\"}]}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"substance\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"\\\\\\\"name\\\\\\\"\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"volume\\\\\\\"\
+\\\", \\\"\[Rule]\\\", \\\"\\\\\\\"name\\\\\\\"\\\"}]}], \\\"}\\\"}]}], \\\"]\
+\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"ampere\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"Ampere\\\
+\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"avogadro\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Mole\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"becquerel\\\\\\\"\\\", \\\"\
+\[Rule]\\\", \\\"Becquerel\\\"}], \\\",\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"28\\\", \\\"\[RightSkeleton]\\\"}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"steradian\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Steradian\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"tesla\\\\\\\"\\\", \\\"\
+\[Rule]\\\", \\\"Tesla\\\"}]}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{\\\"elem_String\\\", \\\"\[RuleDelayed]\\\", RowBox[{\\\"Unit\\\", \\\
+\"[\\\", RowBox[{\\\"1\\\", \\\",\\\", \\\"elem\\\"}], \\\"]\\\"}]}], \\\"}\\\
+\"}]}], \\\"]\\\"}], \\\"]\\\"}], \\\"}\\\"}]\\) is neither a list of \
+replacement rules nor a valid dispatch table, and so cannot be used for \
+replacing.\"",2,30,8,17874791818247159779,"Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.716913386313139*^9, 
+  3.71691349209894*^9},ExpressionUUID->"1505f179-e62f-40df-b1a8-8f873ad09219"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "ReplaceAll","reps",
+   "\"\\!\\(\\*RowBox[{\\\"{\\\", RowBox[{\\\"Join\\\", \\\"[\\\", \
+RowBox[{RowBox[{\\\"updateRules\\\", \\\"[\\\", RowBox[{RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"substance\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Mole\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"volume\\\\\\\"\\\", \
+\\\"\[Rule]\\\", \\\"Liter\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"area\\\\\\\"\
+\\\", \\\"\[Rule]\\\", SuperscriptBox[\\\"Meter\\\", \\\"2\\\"]}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"length\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"Meter\\\"}], \
+\\\",\\\", RowBox[{\\\"\\\\\\\"time\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Second\\\"}]}], \\\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"substance\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"\\\\\\\"name\\\\\\\"\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"volume\\\\\\\"\
+\\\", \\\"\[Rule]\\\", \\\"\\\\\\\"name\\\\\\\"\\\"}]}], \\\"}\\\"}]}], \\\"]\
+\\\"}], \\\",\\\", RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"ampere\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"Ampere\\\
+\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"avogadro\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"Mole\\\"}], \\\",\\\", RowBox[{\\\"\\\\\\\"becquerel\\\\\\\"\\\", \\\"\
+\[Rule]\\\", \\\"Becquerel\\\"}], \\\",\\\", RowBox[{\\\"\[LeftSkeleton]\\\", \
+\\\"27\\\", \\\"\[RightSkeleton]\\\"}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"sievert\\\\\\\"\\\", \\\"\[Rule]\\\", \
+FractionBox[\\\"Joule\\\", RowBox[{\\\"Gram\\\", \\\" \\\", \
+\\\"Kilo\\\"}]]}], \\\",\\\", RowBox[{\\\"\\\\\\\"steradian\\\\\\\"\\\", \\\"\
+\[Rule]\\\", \\\"Steradian\\\"}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"tesla\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"Tesla\\\"}]}], \\\
+\"}\\\"}], \\\",\\\", RowBox[{\\\"{\\\", RowBox[{\\\"elem_String\\\", \\\"\
+\[RuleDelayed]\\\", RowBox[{\\\"Unit\\\", \\\"[\\\", RowBox[{\\\"1\\\", \\\",\
+\\\", \\\"elem\\\"}], \\\"]\\\"}]}], \\\"}\\\"}]}], \\\"]\\\"}], \
+\\\"}\\\"}]\\) is neither a list of replacement rules nor a valid dispatch \
+table, and so cannot be used for replacing.\"",2,31,9,17874791818247159779,
+   "Local"},
+  "MessageTemplate"]], "Message", "MSG",
+ CellChangeTimes->{3.716913386313139*^9, 
+  3.7169134921344633`*^9},ExpressionUUID->"7976fb17-ad8c-4b30-9beb-\
+e8b7d92d1996"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"getListOfReactions", "[", 
+    RowBox[{
+     RowBox[{"xml_", "/;", 
+      RowBox[{
+       RowBox[{"Head", "[", "xml", "]"}], "===", 
+       RowBox[{"XMLObject", "[", "\"\<Document\>\"", "]"}]}]}], ",", 
+     RowBox[{"id2massID", ":", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"_String", "->", 
+          RowBox[{"(", 
+           RowBox[{"_parameter", "|", 
+            RowBox[{"_parameter", "[", "t", "]"}], "|", "_species", "|", 
+            RowBox[{"_species", "[", "t", "]"}], "|", "_Symbol", "|", 
+            RowBox[{"_", "?", "NumberQ"}]}], ")"}]}], ")"}], ".."}], "}"}]}], 
+     ",", 
+     RowBox[{"opts", ":", 
+      RowBox[{"OptionsPattern", "[", "]"}]}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "listOfReactions", "}"}], ",", "\n", "\t", 
+     RowBox[{
+      RowBox[{"listOfReactions", "=", 
+       RowBox[{"Cases", "[", 
+        RowBox[{"xml", ",", 
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<listOfReactions\>\"", ",", "_", ",", "_"}], "]"}], ",",
+          "\[Infinity]"}], "]"}]}], ";", "\n", "\t", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"parseReactionXML", "[", 
+         RowBox[{"#", ",", "id2massID"}], "]"}], "&"}], "/@", 
+       "listOfReactions"}]}]}], "\n", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.7145127358463345`*^9, 
+  3.7145127602990017`*^9}},ExpressionUUID->"2fac2da9-1ff5-4495-9dff-\
+acd271a3e4f7"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"listOfReactions", "=", 
+   RowBox[{"Cases", "[", 
+    RowBox[{"xml", ",", 
+     RowBox[{"XMLElement", "[", 
+      RowBox[{"\"\<listOfReactions\>\"", ",", "_", ",", "_"}], "]"}], ",", 
+     "\[Infinity]"}], "]"}]}], ";"}]], "Input",ExpressionUUID->"7a4706d4-ede2-\
+4d2c-b599-3e441e24fe55"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"parseReactionXML", "[", 
+    RowBox[{
+     RowBox[{"xml", ":", 
+      RowBox[{"XMLElement", "[", 
+       RowBox[{"\"\<reaction\>\"", ",", 
+        RowBox[{"{", 
+         RowBox[{"_Rule", "..."}], "}"}], ",", "_List"}], "]"}]}], ",", 
+     RowBox[{"id2massID", ":", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"_String", "->", 
+          RowBox[{"(", 
+           RowBox[{"_parameter", "|", 
+            RowBox[{"_parameter", "[", "t", "]"}], "|", "_species", "|", 
+            RowBox[{"_species", "[", "t", "]"}], "|", "_Symbol", "|", 
+            RowBox[{"_", "?", "NumberQ"}]}], ")"}]}], ")"}], ".."}], 
+       "}"}]}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "id", ",", "revQ", ",", "listOfReactants", ",", "listOfProducts", ",", 
+       "substr", ",", "prod", ",", "stoich", ",", "fastQ"}], "}"}], ",", "\n",
+      "\t", 
+     RowBox[{
+      RowBox[{"id", "=", 
+       RowBox[{"\"\<id\>\"", "/.", 
+        RowBox[{"Dispatch", "[", 
+         RowBox[{"xml", "[", 
+          RowBox[{"[", "2", "]"}], "]"}], "]"}]}]}], ";", "\n", "\t", 
+      RowBox[{"fastQ", "=", 
+       RowBox[{
+        RowBox[{"\"\<fast\>\"", "/.", 
+         RowBox[{"Dispatch", "[", 
+          RowBox[{"xml", "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "]"}]}], "/.", 
+        RowBox[{"\"\<fast\>\"", "->", "\"\<false\>\""}]}]}], ";", "\n", "\t", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"fastQ", "===", "\"\<true\>\""}], ",", 
+        RowBox[{"Message", "[", 
+         RowBox[{
+          RowBox[{"parseReactionXML", "::", "fastReactionDetected"}], ",", 
+          "id"}], "]"}]}], "]"}], ";", "\n", "\t", 
+      RowBox[{"revQ", "=", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\"\<reversible\>\"", "/.", 
+          RowBox[{"Dispatch", "[", 
+           RowBox[{"xml", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], "]"}]}], ")"}], "/.", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"\"\<reversible\>\"", "->", "True"}], ",", 
+          RowBox[{"\"\<true\>\"", "->", "True"}], ",", 
+          RowBox[{"\"\<false\>\"", "->", "False"}]}], "}"}]}]}], ";", "\n", 
+      "\t", 
+      RowBox[{"listOfReactants", "=", 
+       RowBox[{"getListOfReactants", "[", "xml", "]"}]}], ";", "\n", "\t", 
+      RowBox[{"listOfProducts", "=", 
+       RowBox[{"getListOfProducts", "[", "xml", "]"}]}], ";", "\n", "\t", 
+      RowBox[{"substr", "=", 
+       RowBox[{
+        RowBox[{"listOfReactants", "[", 
+         RowBox[{"[", 
+          RowBox[{"All", ",", "1"}], "]"}], "]"}], "/.", 
+        RowBox[{"Dispatch", "[", "id2massID", "]"}]}]}], ";", "\n", "\t", 
+      RowBox[{"prod", "=", 
+       RowBox[{
+        RowBox[{"listOfProducts", "[", 
+         RowBox[{"[", 
+          RowBox[{"All", ",", "1"}], "]"}], "]"}], "/.", 
+        RowBox[{"Dispatch", "[", "id2massID", "]"}]}]}], ";", "\n", "\t", 
+      RowBox[{"stoich", "=", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"getStoich", "[", 
+          RowBox[{
+           RowBox[{"#", "[", 
+            RowBox[{"[", "2", "]"}], "]"}], ",", "id2massID"}], "]"}], "&"}], 
+        "/@", 
+        RowBox[{"Join", "[", 
+         RowBox[{"listOfReactants", ",", "listOfProducts"}], "]"}]}]}], ";", 
+      "\n", "\t", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{"stoich", "=", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+              RowBox[{"\"\<stoichiometry\>\"", "/.", 
+               RowBox[{"Dispatch", "[", 
+                RowBox[{"#", "[", 
+                 RowBox[{"[", "2", "]"}], "]"}], "]"}]}], "/.", 
+              RowBox[{"s_String", ":>", 
+               RowBox[{"sbmlString2Number", "[", "s", "]"}]}]}], "/.", 
+             RowBox[{"Dispatch", "[", "id2massID", "]"}]}], "/.", 
+            RowBox[{"\"\<stoichiometry\>\"", "->", "1"}]}], "&"}], "/@", 
+          RowBox[{"Join", "[", 
+           RowBox[{"listOfReactants", ",", "listOfProducts"}], "]"}]}]}], 
+        ";"}], "*)"}], "\n", "\t", 
+      RowBox[{"reaction", "[", 
+       RowBox[{"id", ",", "substr", ",", "prod", ",", "stoich", ",", "revQ"}],
+        "]"}]}]}], "\n", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.7145150098587265`*^9, 
+  3.714515022703409*^9}},ExpressionUUID->"82c4a0a1-0968-4da5-96a1-\
+97f2228cba71"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "Level", " ", "3", " ", "Version", " ", "1", " ", "does", " ", "not", " ", 
+    "use", " ", "stoichiometryMath"}], "*)"}], 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"parseSpeciesReference", "[", 
+     RowBox[{"XMLElement", "[", 
+      RowBox[{"\"\<speciesReference\>\"", ",", 
+       RowBox[{"attrVal", ":", 
+        RowBox[{"{", 
+         RowBox[{"_Rule", "..."}], "}"}]}], ",", 
+       RowBox[{"{", 
+        RowBox[{"XMLElement", "[", 
+         RowBox[{"\"\<stoichiometryMath\>\"", ",", 
+          RowBox[{"{", "___", "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"math", ":", 
+            RowBox[{"XMLElement", "[", 
+             RowBox[{"\"\<math\>\"", ",", "_", ",", "_"}], "]"}]}], "}"}]}], 
+         "]"}], "}"}]}], "]"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"\"\<species\>\"", "/.", "attrVal"}], ")"}], "->", 
+     RowBox[{"updateRules", "[", 
+      RowBox[{
+       RowBox[{"FilterRules", "[", 
+        RowBox[{"attrVal", ",", 
+         RowBox[{"Except", "[", "\"\<species\>\"", "]"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"\"\<stoichiometry\>\"", "->", 
+         RowBox[{"mathML2mass", "[", "math", "]"}]}], "}"}]}], "]"}]}]}], 
+   "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"parseSpeciesReference", "[", 
+     RowBox[{"XMLElement", "[", 
+      RowBox[{"\"\<speciesReference\>\"", ",", 
+       RowBox[{"attrVal", ":", 
+        RowBox[{"{", 
+         RowBox[{"_Rule", "..."}], "}"}]}], ",", 
+       RowBox[{"{", "___", "}"}]}], "]"}], "]"}], ":=", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"\"\<species\>\"", "/.", "attrVal"}], ")"}], "->", 
+     RowBox[{"FilterRules", "[", 
+      RowBox[{"attrVal", ",", 
+       RowBox[{"Except", "[", "\"\<species\>\"", "]"}]}], "]"}]}]}], 
+   "\n"}]}]], "Input",
+ CellChangeTimes->{{3.715551231862213*^9, 
+  3.7155512747446733`*^9}},ExpressionUUID->"177b8357-80d3-4d23-bafa-\
+1f5a3dbef2a2"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"mathML2mass", "=", 
+   RowBox[{
+    RowBox[{"XML`MathML`SymbolicMathMLToExpression", "[", 
+     RowBox[{"cleanUpMathML", "[", "#", 
+      RowBox[{"(*", 
+       RowBox[{"/.", 
+        RowBox[{"s_String", "\[RuleDelayed]", 
+         RowBox[{"StringReplace", "[", 
+          RowBox[{"s", ",", 
+           RowBox[{"\"\<_\>\"", "\[Rule]", "\"\<$UNDRSCR$s\>\""}]}], 
+          "]"}]}]}], "*)"}], "]"}], "]"}], "&"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.7155373754453917`*^9, 
+  3.7155373763986034`*^9}},ExpressionUUID->"6849ab36-04e2-41dd-8ee7-\
+2f6c6d3ec2bd"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"cleanUpMathML", "[", 
+    RowBox[{"math", ":", 
+     RowBox[{"XMLElement", "[", 
+      RowBox[{"\"\<math\>\"", ",", "_", ",", "_"}], "]"}]}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "adjustments", "}"}], ",", "\n", "\t", 
+     RowBox[{
+      RowBox[{"adjustments", "=", 
+       RowBox[{"{", "\n", "\t\t", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"stuff", ":", 
+           RowBox[{"XMLElement", "[", 
+            RowBox[{"\"\<csymbol\>\"", ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"\"\<encoding\>\"", "->", "\"\<text\>\""}], ",", 
+               RowBox[{
+               "\"\<definitionURL\>\"", "->", 
+                "\"\<http://www.sbml.org/sbml/symbols/time\>\""}]}], "}"}], 
+             ",", "_"}], "]"}]}], ":>", 
+          RowBox[{"ReplacePart", "[", 
+           RowBox[{"stuff", ",", 
+            RowBox[{"3", "->", 
+             RowBox[{"{", "\"\<t\>\"", "}"}]}]}], "]"}]}], ",", "\n", "\t\t", 
+         RowBox[{
+          RowBox[{"stuff", ":", 
+           RowBox[{"XMLElement", "[", 
+            RowBox[{"\"\<csymbol\>\"", ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"\"\<encoding\>\"", "->", "\"\<text\>\""}], ",", 
+               RowBox[{
+               "\"\<definitionURL\>\"", "->", 
+                "\"\<http://www.sbml.org/sbml/symbols/avogadro\>\""}]}], 
+              "}"}], ",", "_"}], "]"}]}], ":>", 
+          RowBox[{"ReplacePart", "[", 
+           RowBox[{"stuff", ",", 
+            RowBox[{"3", "->", 
+             RowBox[{"{", "\"\<avogadro\>\"", "}"}]}]}], "]"}]}], ",", "\n", 
+         "\t\t", 
+         RowBox[{
+          RowBox[{"pat3", ":", 
+           RowBox[{"XMLElement", "[", 
+            RowBox[{"\"\<csymbol\>\"", ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"\"\<encoding\>\"", "->", "\"\<text\>\""}], ",", 
+               RowBox[{
+               "\"\<definitionURL\>\"", "->", 
+                "\"\<http://www.sbml.org/sbml/symbols/delay\>\""}]}], "}"}], 
+             ",", "_"}], "]"}]}], ":>", 
+          RowBox[{"ReplacePart", "[", 
+           RowBox[{"pat3", ",", 
+            RowBox[{"3", "->", 
+             RowBox[{"{", "\"\<delay\>\"", "}"}]}]}], "]"}]}]}], "\n", "\t", 
+        "}"}]}], ";", "\n", "\t", 
+      RowBox[{
+       RowBox[{"math", "/.", 
+        RowBox[{
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<ci\>\"", ",", "b_", ",", "c_List"}], "]"}], ":>", 
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<ci\>\"", ",", "b", ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"\"\<\\\"\>\"", "<>", "#", "<>", "\"\<\\\"\>\""}], "&"}],
+             "/@", "c"}]}], "]"}]}]}], "/.", "adjustments"}]}]}], "\n", 
+    "]"}]}], ";"}]], "Input",ExpressionUUID->"43ca61e4-9e05-4ced-950c-\
+5d268b77f75e"]
+},
+WindowSize->{681, 676},
+WindowMargins->{{-1376, Automatic}, {Automatic, -84}},
+FrontEndVersion->"11.1 for Microsoft Windows (64-bit) (March 13, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 2782, 58, 202, "Input", "ExpressionUUID" -> \
+"58a669a6-dce8-4437-bd22-3d91acc1fb9c"],
+Cell[CellGroupData[{
+Cell[3365, 82, 31282, 796, 2729, "Input", "ExpressionUUID" -> \
+"f9413f40-ae23-4e1a-becc-af6600cb1a29"],
+Cell[34650, 880, 465, 10, 21, "Message", "ExpressionUUID" -> \
+"9bf8dc64-5331-43cd-8b0e-a4fd9bcdee59"],
+Cell[35118, 892, 517, 10, 23, "Message", "ExpressionUUID" -> \
+"c7830713-5077-4987-a0a3-a2b793b8dfac"],
+Cell[35638, 904, 512, 10, 23, "Message", "ExpressionUUID" -> \
+"ce213e97-c03d-4c1f-a3bb-5f14bf1ffaa9"],
+Cell[36153, 916, 574, 11, 23, "Message", "ExpressionUUID" -> \
+"ecd37a99-fefb-42e5-99be-93b14b16745f"],
+Cell[36730, 929, 2111, 32, 116, "Message", "ExpressionUUID" -> \
+"825f8ba2-d847-4f12-8516-405b1eadcb2a"],
+Cell[38844, 963, 465, 10, 21, "Message", "ExpressionUUID" -> \
+"f6c0fdef-04fa-4b8c-9d4c-a0d263f86d6f"],
+Cell[39312, 975, 2111, 32, 116, "Message", "ExpressionUUID" -> \
+"a0ca9331-fd8c-47f4-b7e2-21ef754b92b2"],
+Cell[41426, 1009, 2111, 32, 116, "Message", "ExpressionUUID" -> \
+"1505f179-e62f-40df-b1a8-8f873ad09219"],
+Cell[43540, 1043, 2220, 35, 159, "Message", "ExpressionUUID" -> \
+"7976fb17-ad8c-4b30-9beb-e8b7d92d1996"]
+}, Open  ]],
+Cell[45775, 1081, 1475, 39, 166, "Input", "ExpressionUUID" -> \
+"2fac2da9-1ff5-4495-9dff-acd271a3e4f7"],
+Cell[47253, 1122, 323, 8, 30, "Input", "ExpressionUUID" -> \
+"7a4706d4-ede2-4d2c-b599-3e441e24fe55"],
+Cell[47579, 1132, 4361, 112, 470, "Input", "ExpressionUUID" -> \
+"82c4a0a1-0968-4da5-96a1-97f2228cba71"],
+Cell[51943, 1246, 1952, 53, 164, "Input", "ExpressionUUID" -> \
+"177b8357-80d3-4d23-bafa-1f5a3dbef2a2"],
+Cell[53898, 1301, 594, 15, 69, "Input", "ExpressionUUID" -> \
+"6849ab36-04e2-41dd-8ee7-2f6c6d3ec2bd"],
+Cell[54495, 1318, 2887, 73, 373, "Input", "ExpressionUUID" -> \
+"43ca61e4-9e05-4ced-950c-5d268b77f75e"]
+}
+]
+*)
+

@@ -1,0 +1,1945 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     68798,       1937]
+NotebookOptionsPosition[     66055,       1865]
+NotebookOutlinePosition[     66397,       1880]
+CellTagsIndexPosition[     66354,       1877]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Replacing", " ", "parseReactionXML"}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"id", "=", 
+     RowBox[{"\"\<id\>\"", "/.", 
+      RowBox[{"Cases", "[", 
+       RowBox[{"xml", ",", 
+        RowBox[{
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<reaction\>\"", ",", "att_", ",", "_List"}], "]"}], 
+         "\[RuleDelayed]", "att"}], ",", "\[Infinity]"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fastQ", "=", 
+     RowBox[{
+      RowBox[{"\"\<fast\>\"", "/.", 
+       RowBox[{"Cases", "[", 
+        RowBox[{"xml", ",", 
+         RowBox[{
+          RowBox[{"XMLElement", "[", 
+           RowBox[{"\"\<reaction\>\"", ",", "att_", ",", "_List"}], "]"}], 
+          "\[RuleDelayed]", "att"}], ",", "\[Infinity]"}], "]"}]}], "/.", 
+      RowBox[{"\"\<fast\>\"", "\[Rule]", "\"\<false\>\""}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "fast", " ", "is", " ", "required", " ", "in", " ", "level", " ", "3"}], 
+    "*)"}], " ", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"#", "===", "\"\<true\>\""}], ")"}], ",", 
+        RowBox[{"Message", "[", 
+         RowBox[{
+          RowBox[{"parseReactionXML", "::", "fastReactionDetected"}], ",", 
+          "id"}], "]"}]}], "]"}], "&"}], "/@", "fastQ"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "reversible", " ", "is", " ", "required", " ", "in", " ", "level", " ", 
+     "3", " ", "defaul", " ", "is", " ", "true", " ", "in", " ", "level", " ",
+      "2"}], "*)"}], " ", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"revQ", "=", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"\"\<reversible\>\"", "/.", 
+        RowBox[{"Cases", "[", 
+         RowBox[{"xml", ",", 
+          RowBox[{
+           RowBox[{"XMLElement", "[", 
+            RowBox[{"\"\<reaction\>\"", ",", "att_", ",", "_List"}], "]"}], 
+           "\[RuleDelayed]", "att"}], ",", "\[Infinity]"}], "]"}]}], ")"}], "/.", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"\"\<reversible\>\"", "->", "True"}], ",", 
+        RowBox[{"\"\<true\>\"", "->", "True"}], ",", 
+        RowBox[{"\"\<false\>\"", "->", "False"}]}], "}"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"replacing", " ", "getLisOfReactants"}], "*)"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Level", " ", "3", " ", "Version", " ", "1", " ", "does", " ", "not", " ",
+      "use", " ", "stoichiometryMath"}], "*)"}], 
+   RowBox[{
+    RowBox[{"listOfReactants", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\"\<species\>\"", "/.", 
+          RowBox[{"Cases", "[", 
+           RowBox[{"#", ",", 
+            RowBox[{
+             RowBox[{"XMLElement", "[", 
+              RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+              "]"}], "\[RuleDelayed]", "att"}]}], "]"}]}], ")"}], "\[Rule]", 
+        RowBox[{"FilterRules", "[", 
+         RowBox[{
+          RowBox[{"Cases", "[", 
+           RowBox[{"#", ",", 
+            RowBox[{
+             RowBox[{"XMLElement", "[", 
+              RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+              "]"}], "\[RuleDelayed]", "att"}]}], "]"}], ",", 
+          RowBox[{"Except", "[", "\"\<species\>\"", "]"}]}], "]"}]}], "&"}], "/@", 
+      RowBox[{"Cases", "[", 
+       RowBox[{"xml", ",", 
+        RowBox[{
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<listOfReactants\>\"", ",", "_", ",", "attr_"}], "]"}], 
+         ":>", "attr"}], ",", "\[Infinity]"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listOfProducts", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\"\<species\>\"", "/.", 
+          RowBox[{"Cases", "[", 
+           RowBox[{"#", ",", 
+            RowBox[{
+             RowBox[{"XMLElement", "[", 
+              RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+              "]"}], "\[RuleDelayed]", "att"}]}], "]"}]}], ")"}], "\[Rule]", 
+        RowBox[{"FilterRules", "[", 
+         RowBox[{
+          RowBox[{"Cases", "[", 
+           RowBox[{"#", ",", 
+            RowBox[{
+             RowBox[{"XMLElement", "[", 
+              RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+              "]"}], "\[RuleDelayed]", "att"}]}], "]"}], ",", 
+          RowBox[{"Except", "[", "\"\<species\>\"", "]"}]}], "]"}]}], "&"}], "/@", 
+      RowBox[{"Cases", "[", 
+       RowBox[{"xml", ",", 
+        RowBox[{
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<listOfProducts\>\"", ",", "_", ",", "attr_"}], "]"}], ":>",
+          "attr"}], ",", "\[Infinity]"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"substr", "=", " ", 
+     RowBox[{
+      RowBox[{"listOfReactants", "[", 
+       RowBox[{"[", 
+        RowBox[{"All", ",", "1"}], "]"}], "]"}], "/.", 
+      RowBox[{"Dispatch", "[", "id2massID", "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prod", " ", "=", 
+     RowBox[{
+      RowBox[{"listOfProducts", "[", 
+       RowBox[{"[", 
+        RowBox[{"All", ",", "1"}], "]"}], "]"}], "/.", 
+      RowBox[{"Dispatch", "[", "id2massID", "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"id1", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"\"\<id\>\"", "/.", "#1"}], "/.", 
+         RowBox[{"\"\<id\>\"", "\[Rule]", "None"}]}], ")"}], "&"}], "/@", 
+      RowBox[{"Join", "[", 
+       RowBox[{"listOfReactants", ",", "listOfProducts"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"stoich1", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"\"\<stoichiometry\>\"", "/.", "#1"}], "/.", 
+         RowBox[{"\"\<stoichiometry\>\"", "\[Rule]", "None"}]}], ")"}], "&"}],
+       "/@", 
+      RowBox[{"Join", "[", 
+       RowBox[{"listOfReactants", ",", "listOfProducts"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"stoich", "=", 
+     RowBox[{"MapThread", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Which", "[", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"#1", "===", "None"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"\"\<stoichiometry\>\"", "/.", 
+               RowBox[{"#2", "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}], "/.", 
+              RowBox[{"\"\<stoichiometry\>\"", "\[Rule]", "1"}]}], ")"}], "/.",
+             "id2massID"}], "/.", 
+           RowBox[{"s_String", "\[RuleDelayed]", 
+            RowBox[{"sbmlString2Number", "[", "s", "]"}]}]}], 
+          "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"MatchQ", "[", 
+            RowBox[{"#1", ",", "_String"}], "]"}], "&&", 
+           RowBox[{"(", 
+            RowBox[{"#3", "===", "None"}], ")"}]}], ",", 
+          "\[IndentingNewLine]", "#1", "\[IndentingNewLine]", ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"MatchQ", "[", 
+            RowBox[{"#1", ",", "_String"}], "]"}], "&&", 
+           RowBox[{"(", 
+            RowBox[{"#3", "=!=", "None"}], ")"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"\"\<stoichiometry\>\"", "/.", 
+               RowBox[{"#2", "[", 
+                RowBox[{"[", "2", "]"}], "]"}]}], "/.", 
+              RowBox[{"\"\<stoichiometry\>\"", "\[Rule]", "1"}]}], ")"}], "/.",
+             "id2massID"}], "/.", 
+           RowBox[{"s_String", "\[RuleDelayed]", 
+            RowBox[{"sbmlString2Number", "[", "s", "]"}]}]}]}], 
+         "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", "&"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"id1", ",", 
+         RowBox[{"Join", "[", 
+          RowBox[{"listOfReactants", ",", "listOfProducts"}], "]"}], ",", 
+         "stoich1"}], "}"}]}], "]"}]}], ";"}]}]}]], "Input",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGAQBWIQ7eM8yfXWuteOr54v8QDRiqZLg0F0kEdaGIie3b8x
+HkSbqTAkgmi+Ox2pIFpqyassED1Henk+iK4LW1IEoo/U63eC6GubLPpANG+S
+yRQQLfE1fSpYfWDcAhDdVvhgIYietufnLRC9YA/bbTC96ekLEM3k3PoSRM+S
+M/sFtndj4W8QfeFxONNtEF9gHjOIZvUt5wPRP/zt+EH0h80dB1atf+3YkjDr
+IIi+OvvTJxDdViP7H0RvP/qQZTWQtj1uxQqio5zW8YBobacdYNoj964YiL4k
+MU0cRFtLCSuCaC2dHaogOsv2x0wQ/c1WYRaIFtOuVAna8NrRT/4xmAYAoLa8
+uQ==
+  "],ExpressionUUID->"e7df83ea-fc15-4393-92f7-1dd001fa5198"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"temp3", "[", 
+   RowBox[{"xml_:", 
+    RowBox[{"XMLElement", "[", 
+     RowBox[{"\"\<reaction\>\"", ",", 
+      RowBox[{"{", 
+       RowBox[{"_Rule", "..."}], "}"}], ",", "_List"}], "]"}]}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "id", ",", "fastQ", ",", "substr", ",", "prod", ",", "stoich", ",", 
+      "revQ"}], "}"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"attrTemp", "=", 
+      RowBox[{"Cases", "[", 
+       RowBox[{"xml", ",", 
+        RowBox[{
+         RowBox[{"XMLElement", "[", 
+          RowBox[{"\"\<parameter\>\"", ",", "attrb_", ",", "_"}], "]"}], 
+         "\[RuleDelayed]", "attrb"}], ",", "\[Infinity]"}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"listOfParameters", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"\"\<constant\>\"", "/.", "#"}], ")"}], "===", 
+            "\"\<true\>\""}], ",", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"parameter", "[", "\"\<id\>\"", "]"}], "/.", "#"}], 
+            ")"}], ",", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"parameter", "[", "\"\<id\>\"", "]"}], "/.", "#"}], 
+             ")"}], "[", "t", "]"}]}], "]"}], "&"}], "/@", "attrTemp"}], 
+       "\[Rule]", "attrTemp"}]}]}]}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"below", " ", "works"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"id", "=", 
+      RowBox[{"\"\<id\>\"", "/.", 
+       RowBox[{"xml", "[", 
+        RowBox[{"[", "2", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"fastQ", "=", 
+      RowBox[{
+       RowBox[{"\"\<fast\>\"", "/.", 
+        RowBox[{"xml", "[", 
+         RowBox[{"[", "2", "]"}], "]"}]}], "/.", 
+       RowBox[{"\"\<fast\>\"", "\[Rule]", "\"\<false\>\""}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "fast", " ", "is", " ", "required", " ", "in", " ", "level", " ", "3"}],
+       "*)"}], " ", "\[IndentingNewLine]", 
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"fastQ", "===", "\"\<true\>\""}], ")"}], ",", 
+       RowBox[{"Message", "[", 
+        RowBox[{
+         RowBox[{"parseReactionXML", "::", "fastReactionDetected"}], ",", 
+         "id"}], "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "reversible", " ", "is", " ", "required", " ", "in", " ", "level", " ", 
+       "3", " ", "default", " ", "is", " ", "true", " ", "in", " ", "level", 
+       " ", "2"}], "*)"}], " ", "\[IndentingNewLine]", 
+     RowBox[{"revQ", "=", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"\"\<reversible\>\"", "/.", 
+         RowBox[{"xml", "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], ")"}], "/.", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"\"\<reversible\>\"", "->", "True"}], ",", 
+         RowBox[{"\"\<true\>\"", "->", "True"}], ",", 
+         RowBox[{"\"\<false\>\"", "->", "False"}]}], "}"}]}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+      "Level", " ", "3", " ", "Version", " ", "1", " ", "does", " ", "not", 
+       " ", "use", " ", "stoichiometryMath"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"listOfReactants", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"\"\<species\>\"", "/.", 
+           RowBox[{"Cases", "[", 
+            RowBox[{"#", ",", 
+             RowBox[{
+              RowBox[{"XMLElement", "[", 
+               RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+               "]"}], "\[RuleDelayed]", "att"}]}], "]"}]}], ")"}], "\[Rule]", 
+         RowBox[{"FilterRules", "[", 
+          RowBox[{
+           RowBox[{"Cases", "[", 
+            RowBox[{"#", ",", 
+             RowBox[{
+              RowBox[{"XMLElement", "[", 
+               RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+               "]"}], "\[RuleDelayed]", "att"}]}], "]"}], ",", 
+           RowBox[{"Except", "[", "\"\<species\>\"", "]"}]}], "]"}]}], "&"}], 
+       "/@", 
+       RowBox[{"Cases", "[", 
+        RowBox[{"xml", ",", 
+         RowBox[{
+          RowBox[{"XMLElement", "[", 
+           RowBox[{"\"\<listOfReactants\>\"", ",", "_", ",", "attr_"}], "]"}],
+           ":>", "attr"}], ",", "\[Infinity]"}], "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"listOfProducts", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"\"\<species\>\"", "/.", 
+           RowBox[{"Cases", "[", 
+            RowBox[{"#", ",", 
+             RowBox[{
+              RowBox[{"XMLElement", "[", 
+               RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+               "]"}], "\[RuleDelayed]", "att"}]}], "]"}]}], ")"}], "\[Rule]", 
+         RowBox[{"FilterRules", "[", 
+          RowBox[{
+           RowBox[{"Cases", "[", 
+            RowBox[{"#", ",", 
+             RowBox[{
+              RowBox[{"XMLElement", "[", 
+               RowBox[{"\"\<speciesReference\>\"", ",", "att_", ",", "_"}], 
+               "]"}], "\[RuleDelayed]", "att"}]}], "]"}], ",", 
+           RowBox[{"Except", "[", "\"\<species\>\"", "]"}]}], "]"}]}], "&"}], 
+       "/@", 
+       RowBox[{"Cases", "[", 
+        RowBox[{"xml", ",", 
+         RowBox[{
+          RowBox[{"XMLElement", "[", 
+           RowBox[{"\"\<listOfProducts\>\"", ",", "_", ",", "attr_"}], "]"}], 
+          ":>", "attr"}], ",", "\[Infinity]"}], "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"substr", "=", " ", 
+      RowBox[{
+       RowBox[{"listOfReactants", "[", 
+        RowBox[{"[", 
+         RowBox[{"All", ",", "1"}], "]"}], "]"}], "/.", 
+       RowBox[{"Dispatch", "[", "id2massID", "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"prod", " ", "=", 
+      RowBox[{
+       RowBox[{"listOfProducts", "[", 
+        RowBox[{"[", 
+         RowBox[{"All", ",", "1"}], "]"}], "]"}], "/.", 
+       RowBox[{"Dispatch", "[", "id2massID", "]"}]}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", 
+     RowBox[{"id1", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"\"\<id\>\"", "/.", "#1"}], "/.", 
+          RowBox[{"\"\<id\>\"", "\[Rule]", "None"}]}], ")"}], "&"}], "/@", 
+       RowBox[{"Join", "[", 
+        RowBox[{"listOfReactants", ",", "listOfProducts"}], "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stoich1", "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"\"\<stoichiometry\>\"", "/.", "#1"}], "/.", 
+          RowBox[{"\"\<stoichiometry\>\"", "\[Rule]", "None"}]}], ")"}], 
+        "&"}], "/@", 
+       RowBox[{"Join", "[", 
+        RowBox[{"listOfReactants", ",", "listOfProducts"}], "]"}]}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"stoich", "=", 
+      RowBox[{"MapThread", "[", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Which", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"#1", "===", "None"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"\"\<stoichiometry\>\"", "/.", 
+                RowBox[{"#2", "[", 
+                 RowBox[{"[", "2", "]"}], "]"}]}], "/.", 
+               RowBox[{"\"\<stoichiometry\>\"", "\[Rule]", "1"}]}], ")"}], "/.",
+              "id2massID"}], "/.", 
+            RowBox[{"s_String", "\[RuleDelayed]", 
+             RowBox[{"sbmlString2Number", "[", "s", "]"}]}]}], 
+           "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"MatchQ", "[", 
+             RowBox[{"#1", ",", "_String"}], "]"}], "&&", 
+            RowBox[{"(", 
+             RowBox[{"#3", "===", "None"}], ")"}]}], ",", 
+           "\[IndentingNewLine]", "#1", "\[IndentingNewLine]", ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"MatchQ", "[", 
+             RowBox[{"#1", ",", "_String"}], "]"}], "&&", 
+            RowBox[{"(", 
+             RowBox[{"#3", "=!=", "None"}], ")"}]}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"\"\<stoichiometry\>\"", "/.", 
+                RowBox[{"#2", "[", 
+                 RowBox[{"[", "2", "]"}], "]"}]}], "/.", 
+               RowBox[{"\"\<stoichiometry\>\"", "\[Rule]", "1"}]}], ")"}], "/.",
+              "id2massID"}], "/.", 
+            RowBox[{"s_String", "\[RuleDelayed]", 
+             RowBox[{"sbmlString2Number", "[", "s", "]"}]}]}]}], 
+          "\[IndentingNewLine]", "]"}], "\[IndentingNewLine]", "&"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"id1", ",", 
+          RowBox[{"Join", "[", 
+           RowBox[{"listOfReactants", ",", "listOfProducts"}], "]"}], ",", 
+          "stoich1"}], "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", 
+     RowBox[{"reaction", "[", 
+      RowBox[{"id", ",", "substr", ",", "prod", ",", "stoich", ",", "revQ"}], 
+      "]"}]}], "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "]"}]}]], "Input",
+ CellChangeTimes->{{3.716322313288208*^9, 3.7163223512027116`*^9}, {
+   3.716322417142128*^9, 3.716322435444215*^9}, {3.7163225059250793`*^9, 
+   3.7163225161997986`*^9}, {3.716322556084738*^9, 3.7163225719677496`*^9}, {
+   3.7163226021200094`*^9, 3.7163226312050314`*^9}, {3.7163226723737926`*^9, 
+   3.7163226882960467`*^9}, {3.7163227241692266`*^9, 3.716322785416547*^9}, {
+   3.7163228308866243`*^9, 3.7163229431904645`*^9}, {3.716323060059279*^9, 
+   3.716323091207532*^9}, {3.716323343016756*^9, 3.7163233839473524`*^9}, {
+   3.7163234698391633`*^9, 3.716323474058136*^9}, {3.7163239130504293`*^9, 
+   3.7163239173475313`*^9}, 3.7163239984168005`*^9, {3.7163243486779785`*^9, 
+   3.7163243506155815`*^9}, {3.716324385525236*^9, 3.7163243925255976`*^9}, {
+   3.7163248323216333`*^9, 3.7163248863089695`*^9}, {3.7163250042903323`*^9, 
+   3.716325004790373*^9}, {3.716325078407693*^9, 3.716325093543832*^9}, {
+   3.71632525941028*^9, 3.716325260410372*^9}, {3.716325398200097*^9, 
+   3.7163254017523856`*^9}, {3.71632565849034*^9, 3.716325660336666*^9}, 
+   3.7163257245643826`*^9, {3.716325843526576*^9, 3.7163258715438576`*^9}, {
+   3.716325964281377*^9, 3.716325971187987*^9}, {3.7163260207375965`*^9, 
+   3.7163260432607393`*^9}, 3.716326124840821*^9, {3.7163261968357286`*^9, 
+   3.7163261970232*^9}, {3.7163262419402065`*^9, 3.7163262649233027`*^9}, {
+   3.7163264053865786`*^9, 3.7163264760734167`*^9}, {3.7163265464131217`*^9, 
+   3.716326550491476*^9}, {3.716326642199582*^9, 3.7163267233342237`*^9}, 
+   3.7163268935964966`*^9, 3.7163269297040367`*^9, {3.716326959836006*^9, 
+   3.7163269825190277`*^9}, {3.716327014638147*^9, 3.7163270941468277`*^9}, {
+   3.71632715276262*^9, 3.7163272744902463`*^9}, {3.716328205221141*^9, 
+   3.716328236563841*^9}, {3.7163283036929016`*^9, 3.7163283059256086`*^9}, {
+   3.7163285014706726`*^9, 3.7163285097523136`*^9}, {3.716328546547443*^9, 
+   3.7163286107887955`*^9}, {3.7163288213434644`*^9, 
+   3.7163288273958035`*^9}, {3.7165679433411016`*^9, 3.7165679437786655`*^9}, 
+   {3.7165679925592012`*^9, 3.716568004168525*^9}, {3.7165680544871235`*^9, 
+   3.7165680947462025`*^9}},ExpressionUUID->"e344a271-8dc4-49b8-a1c3-\
+3520dc897450"],
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.716323335683178*^9, 
+  3.7163233363551273`*^9}},ExpressionUUID->"40f5a5a4-e7c0-49bd-af79-\
+89b13fff07cd"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"xml", "=", 
+   RowBox[{"Cases", "[", 
+    RowBox[{"xml", ",", 
+     RowBox[{"XMLElement", "[", 
+      RowBox[{"\"\<reaction\>\"", ",", "_", ",", "_"}], "]"}], ",", 
+     "\[Infinity]"}], "]"}]}], ";"}]], "Input",ExpressionUUID->"f6c14415-4e72-\
+46d4-b11a-f811b31cee84"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"temp3", "/@", "xml"}]], "Input",
+ CellChangeTimes->{{3.7163223779724164`*^9, 3.7163224380277605`*^9}, {
+   3.7163224743804445`*^9, 3.7163224797239327`*^9}, {3.716322574845681*^9, 
+   3.7163225854310017`*^9}, {3.7163233272319403`*^9, 3.7163233351519413`*^9}, 
+   3.7163242904713097`*^9, 3.716325671937853*^9, {3.716325754847495*^9, 
+   3.716325757273493*^9}, {3.7163258076852317`*^9, 3.7163258111072845`*^9}, {
+   3.7163258825337133`*^9, 3.7163258897632103`*^9}, {3.716325978840253*^9, 
+   3.7163260128609285`*^9}, {3.716326257641313*^9, 3.716326258156925*^9}, {
+   3.7163264717607336`*^9, 3.716326473057675*^9}, 3.7163269326282735`*^9, {
+   3.7163294643200965`*^9, 
+   3.7163294648670373`*^9}},ExpressionUUID->"cff361a6-bcbf-4af1-8d9a-\
+45ce21d1e004"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{
+       InterpretationBox[
+        UnderscriptBox[
+         StyleBox["k1",
+          StripOnInput->False,
+          ShowSyntaxStyles->False,
+          AutoSpacing->False,
+          ZeroWidthTimes->True,
+          LineColor->RGBColor[0, 0, 0],
+          FrontFaceColor->RGBColor[0, 0, 0],
+          BackFaceColor->RGBColor[0, 0, 0],
+          GraphicsColor->RGBColor[0, 0, 0],
+          FontColor->RGBColor[0, 0, 0]], 
+         StyleBox["Global",
+          StripOnInput->False,
+          ShowSyntaxStyles->False,
+          AutoSpacing->False,
+          ZeroWidthTimes->True,
+          LineColor->RGBColor[0, 0, 0],
+          FrontFaceColor->RGBColor[0, 0, 0],
+          BackFaceColor->RGBColor[0, 0, 0],
+          GraphicsColor->RGBColor[0, 0, 0],
+          FontColor->RGBColor[0, 0, 0]]],
+        Toolbox`parameter["k1"],
+        Editable->False,
+        Selectable->False], "[", "t", "]"}], ",", 
+      RowBox[{
+       InterpretationBox[
+        UnderscriptBox[
+         StyleBox["k2",
+          StripOnInput->False,
+          ShowSyntaxStyles->False,
+          AutoSpacing->False,
+          ZeroWidthTimes->True,
+          LineColor->RGBColor[0, 0, 0],
+          FrontFaceColor->RGBColor[0, 0, 0],
+          BackFaceColor->RGBColor[0, 0, 0],
+          GraphicsColor->RGBColor[0, 0, 0],
+          FontColor->RGBColor[0, 0, 0]], 
+         StyleBox["Global",
+          StripOnInput->False,
+          ShowSyntaxStyles->False,
+          AutoSpacing->False,
+          ZeroWidthTimes->True,
+          LineColor->RGBColor[0, 0, 0],
+          FrontFaceColor->RGBColor[0, 0, 0],
+          BackFaceColor->RGBColor[0, 0, 0],
+          GraphicsColor->RGBColor[0, 0, 0],
+          FontColor->RGBColor[0, 0, 0]]],
+        Toolbox`parameter["k2"],
+        Editable->False,
+        Selectable->False], "[", "t", "]"}]}], "}"}], "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+        RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686811\"\>"}], ",", 
+        RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"3.32E-18\"\>"}]}], "}"}], 
+      ",", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k2\"\>"}], ",", 
+        RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686823\"\>"}], ",", 
+        RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.01\"\>"}]}], "}"}]}], 
+     "}"}]}], ",", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      InterpretationBox[
+       UnderscriptBox[
+        StyleBox["v",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]], 
+        StyleBox["Global",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]]],
+       Toolbox`parameter["v"],
+       Editable->False,
+       Selectable->False], "[", "t", "]"}], "}"}], "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"v\"\>"}], ",", 
+       RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686859\"\>"}], ",", 
+       RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"4\"\>"}]}], "}"}], "}"}]}], 
+   ",", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      InterpretationBox[
+       UnderscriptBox[
+        StyleBox["k1",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]], 
+        StyleBox["Global",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]]],
+       Toolbox`parameter["k1"],
+       Editable->False,
+       Selectable->False], "[", "t", "]"}], "}"}], "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+       RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686895\"\>"}], ",", 
+       RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.0004\"\>"}]}], "}"}], 
+     "}"}]}], ",", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      InterpretationBox[
+       UnderscriptBox[
+        StyleBox["k1",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]], 
+        StyleBox["Global",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]]],
+       Toolbox`parameter["k1"],
+       Editable->False,
+       Selectable->False], "[", "t", "]"}], "}"}], "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+       RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686955\"\>"}], ",", 
+       RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"1\"\>"}]}], "}"}], "}"}]}], 
+   ",", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      InterpretationBox[
+       UnderscriptBox[
+        StyleBox["k1",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]], 
+        StyleBox["Global",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]]],
+       Toolbox`parameter["k1"],
+       Editable->False,
+       Selectable->False], "[", "t", "]"}], "}"}], "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+       RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_687027\"\>"}], ",", 
+       RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"1E-5\"\>"}]}], "}"}], "}"}]}],
+    ",", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      InterpretationBox[
+       UnderscriptBox[
+        StyleBox["k1",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]], 
+        StyleBox["Global",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]]],
+       Toolbox`parameter["k1"],
+       Editable->False,
+       Selectable->False], "[", "t", "]"}], "}"}], "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+       RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_687063\"\>"}], ",", 
+       RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.004\"\>"}]}], "}"}], 
+     "}"}]}], ",", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      InterpretationBox[
+       UnderscriptBox[
+        StyleBox["k1",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]], 
+        StyleBox["Global",
+         StripOnInput->False,
+         ShowSyntaxStyles->False,
+         AutoSpacing->False,
+         ZeroWidthTimes->True,
+         LineColor->RGBColor[0, 0, 0],
+         FrontFaceColor->RGBColor[0, 0, 0],
+         BackFaceColor->RGBColor[0, 0, 0],
+         GraphicsColor->RGBColor[0, 0, 0],
+         FontColor->RGBColor[0, 0, 0]]],
+       Toolbox`parameter["k1"],
+       Editable->False,
+       Selectable->False], "[", "t", "]"}], "}"}], "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+       RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_687111\"\>"}], ",", 
+       RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.11\"\>"}]}], "}"}], 
+     "}"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.71632704810046*^9, 3.716327082710636*^9}, {
+   3.7163271588879023`*^9, 3.7163272483566475`*^9}, 3.716327283123418*^9, {
+   3.716328814690363*^9, 3.716328834956274*^9}, 3.7163294657264185`*^9, {
+   3.7165680139471426`*^9, 3.7165680270117683`*^9}, 
+   3.716568104824811*^9},ExpressionUUID->"4fb8d4cd-d620-48c8-9d5a-\
+339dc99137b2"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"Join", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"getID", "[", 
+       RowBox[{"#", "/.", 
+        RowBox[{
+         RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], "->", 
+      "#"}], "&"}], "/@", 
+    RowBox[{"listOfSpecies", "[", 
+     RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"getID", "[", 
+        RowBox[{"#", "/.", 
+         RowBox[{
+          RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], "[", 
+       RowBox[{"[", "2", "]"}], "]"}], "->", "#"}], "&"}], "/@", 
+    RowBox[{"listOfCompartments", "[", 
+     RowBox[{"[", "1", "]"}], "]"}]}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", "#", "]"}], ">", "1"}], ",", 
+          RowBox[{"#", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], ",", "#"}], "]"}], "&"}], "[", 
+       RowBox[{"getID", "[", 
+        RowBox[{"#", "/.", 
+         RowBox[{
+          RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], "]"}], "->",
+       "#"}], "&"}], "/@", 
+    RowBox[{"DeleteCases", "[", 
+     RowBox[{
+      RowBox[{"listOfParameters", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], ",", 
+      RowBox[{"parameter", "[", 
+       RowBox[{"\"\<Volume\>\"", ",", "_"}], "]"}]}], "]"}]}]}], 
+  "]"}]], "Input",ExpressionUUID->"85c3f7ed-05b0-4c58-951c-de32eda86d31"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Join", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"getID", "[", 
+       RowBox[{"#", "/.", 
+        RowBox[{
+         RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], "->", 
+      "#"}], "&"}], "/@", 
+    RowBox[{"listOfSpecies", "[", 
+     RowBox[{"[", 
+      RowBox[{"All", ",", "1"}], "]"}], "]"}]}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"getID", "[", 
+        RowBox[{"#", "/.", 
+         RowBox[{
+          RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], "[", 
+       RowBox[{"[", "2", "]"}], "]"}], "->", "#"}], "&"}], "/@", 
+    RowBox[{"listOfCompartments", "[", 
+     RowBox[{"[", 
+      RowBox[{"All", ",", "1"}], "]"}], "]"}]}], ",", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Length", "[", "#", "]"}], ">", "1"}], ",", 
+          RowBox[{"#", "[", 
+           RowBox[{"[", 
+            RowBox[{"All", ",", "1"}], "]"}], "]"}], ",", "#"}], "]"}], "&"}],
+        "[", 
+       RowBox[{"getID", "[", 
+        RowBox[{"#", "/.", 
+         RowBox[{
+          RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], "]"}], "->",
+       "#"}], "&"}], "/@", 
+    RowBox[{"DeleteCases", "[", 
+     RowBox[{
+      RowBox[{"listOfParameters", "[", 
+       RowBox[{"[", 
+        RowBox[{"All", ",", "1"}], "]"}], "]"}], ",", 
+      RowBox[{"parameter", "[", 
+       RowBox[{"\"\<Volume\>\"", ",", "_"}], "]"}]}], "]"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{
+  3.716567372351017*^9},ExpressionUUID->"b3d64178-7bdf-4d7f-8296-\
+c1023095a49b"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Toolbox","badargs",
+   "\"There is no definition for '\\!\\(\\*RowBox[{\\\"getID\\\"}]\\)' \
+applicable to \\!\\(\\*RowBox[{\\\"getID\\\", \\\"[\\\", RowBox[{\\\"{\\\", \
+RowBox[{RowBox[{\\\"\\\\\\\"compartment\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"\\\\\\\"cell\\\\\\\"\\\"}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"id\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"\\\\\\\"L\\\\\\\"\\\"}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"initialConcentration\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"\\\
+\\\\\"6.02E17\\\\\\\"\\\"}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"metaid\\\\\\\"\\\", \\\"\[Rule]\\\", \
+\\\"\\\\\\\"_954274\\\\\\\"\\\"}], \\\",\\\", \
+RowBox[{\\\"\\\\\\\"name\\\\\\\"\\\", \\\"\[Rule]\\\", \\\"\\\\\\\"Ligand\\\\\
+\\\"\\\"}]}], \\\"}\\\"}], \\\"]\\\"}]\\).\"",2,977,290,17865224997652681880,
+   "Local","Toolbox`Toolbox"},
+  "MessageTemplate2"]], "Message", "MSG",
+ CellChangeTimes->{{3.7165673708509398`*^9, 
+  3.7165673728979216`*^9}},ExpressionUUID->"ba39aa6e-164f-4f57-9e1f-\
+d78a256d110a"],
+
+Cell[BoxData["$Aborted"], "Output",
+ CellChangeTimes->{{3.7165673708509398`*^9, 
+  3.716567372929173*^9}},ExpressionUUID->"100b405f-33ca-45c9-931e-\
+7fbeeb408caa"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Length", "[", "#", "]"}], ">", "1"}], ",", 
+        RowBox[{"#", "[", 
+         RowBox[{"[", 
+          RowBox[{"All", ",", "1"}], "]"}], "]"}], ",", "#"}], "]"}], "&"}], 
+     "[", 
+     RowBox[{"getID", "[", 
+      RowBox[{"#", "/.", 
+       RowBox[{
+        RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], "]"}], "->",
+     "#"}], "&"}], "/@", 
+  RowBox[{"DeleteCases", "[", 
+   RowBox[{
+    RowBox[{"listOfParameters", "[", 
+     RowBox[{"[", "1", "]"}], "]"}], ",", 
+    RowBox[{"parameter", "[", 
+     RowBox[{"\"\<Volume\>\"", ",", "_"}], "]"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.716567427596737*^9, 3.716567475182056*^9}, {
+  3.716567550423855*^9, 
+  3.7165675602924843`*^9}},ExpressionUUID->"e6d62652-5f87-410b-8509-\
+e0487a86fed8"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"\<\"k1\"\>", "\[Rule]", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}]}], ",", 
+   RowBox[{"\<\"k2\"\>", "\[Rule]", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k2",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k2"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}]}], ",", 
+   RowBox[{"\<\"v\"\>", "\[Rule]", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["v",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["v"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}]}], ",", 
+   RowBox[{"\<\"k1\"\>", "\[Rule]", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}]}], ",", 
+   RowBox[{"\<\"k1\"\>", "\[Rule]", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}]}], ",", 
+   RowBox[{"\<\"k1\"\>", "\[Rule]", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}]}], ",", 
+   RowBox[{"\<\"k1\"\>", "\[Rule]", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}]}], ",", 
+   RowBox[{"\<\"k1\"\>", "\[Rule]", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.716567407761077*^9, 3.716567475932056*^9}, 
+   3.716567551517619*^9},ExpressionUUID->"3e08fdb9-e913-477e-9a0f-\
+b7acb4396b78"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Length", "[", "#", "]"}], ">", "1"}], ",", 
+       RowBox[{"#", "[", 
+        RowBox[{"[", 
+         RowBox[{"All", ",", "1"}], "]"}], "]"}], ",", "#"}], "]"}], "&"}], 
+    "[", 
+    RowBox[{"getID", "[", 
+     RowBox[{"#", "/.", 
+      RowBox[{
+       RowBox[{"elem_", "[", "t", "]"}], ":>", "elem"}]}], "]"}], "]"}], 
+   "&"}], "/@", 
+  RowBox[{"DeleteCases", "[", 
+   RowBox[{
+    RowBox[{"listOfParameters", "[", 
+     RowBox[{"[", "1", "]"}], "]"}], ",", 
+    RowBox[{"parameter", "[", 
+     RowBox[{"\"\<Volume\>\"", ",", "_"}], "]"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.716567575074497*^9, 3.716567613839722*^9}, 
+   3.716567650715705*^9},ExpressionUUID->"269d819c-33c3-4967-b4da-\
+cb938cb6a84c"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"k1\"\>", ",", "\<\"k2\"\>", ",", "\<\"v\"\>", 
+   ",", "\<\"k1\"\>", ",", "\<\"k1\"\>", ",", "\<\"k1\"\>", ",", "\<\"k1\"\>",
+    ",", "\<\"k1\"\>"}], "}"}]], "Output",
+ CellChangeTimes->{{3.716567579798583*^9, 3.716567614808525*^9}, 
+   3.716567651920088*^9},ExpressionUUID->"68e7a8b0-af0a-4260-bca2-\
+8cb22006ef0d"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"listOfParameters", "[", 
+  RowBox[{"[", "1", "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.716567664646349*^9, 
+  3.716567670642544*^9}},ExpressionUUID->"e0182f15-f25f-49d2-bd92-\
+e89700826807"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{
+    InterpretationBox[
+     UnderscriptBox[
+      StyleBox["k1",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]], 
+      StyleBox["Global",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]]],
+     Toolbox`parameter["k1"],
+     Editable->False,
+     Selectable->False], "[", "t", "]"}], ",", 
+   RowBox[{
+    InterpretationBox[
+     UnderscriptBox[
+      StyleBox["k2",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]], 
+      StyleBox["Global",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]]],
+     Toolbox`parameter["k2"],
+     Editable->False,
+     Selectable->False], "[", "t", "]"}], ",", 
+   RowBox[{
+    InterpretationBox[
+     UnderscriptBox[
+      StyleBox["v",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]], 
+      StyleBox["Global",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]]],
+     Toolbox`parameter["v"],
+     Editable->False,
+     Selectable->False], "[", "t", "]"}], ",", 
+   RowBox[{
+    InterpretationBox[
+     UnderscriptBox[
+      StyleBox["k1",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]], 
+      StyleBox["Global",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]]],
+     Toolbox`parameter["k1"],
+     Editable->False,
+     Selectable->False], "[", "t", "]"}], ",", 
+   RowBox[{
+    InterpretationBox[
+     UnderscriptBox[
+      StyleBox["k1",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]], 
+      StyleBox["Global",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]]],
+     Toolbox`parameter["k1"],
+     Editable->False,
+     Selectable->False], "[", "t", "]"}], ",", 
+   RowBox[{
+    InterpretationBox[
+     UnderscriptBox[
+      StyleBox["k1",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]], 
+      StyleBox["Global",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]]],
+     Toolbox`parameter["k1"],
+     Editable->False,
+     Selectable->False], "[", "t", "]"}], ",", 
+   RowBox[{
+    InterpretationBox[
+     UnderscriptBox[
+      StyleBox["k1",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]], 
+      StyleBox["Global",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]]],
+     Toolbox`parameter["k1"],
+     Editable->False,
+     Selectable->False], "[", "t", "]"}], ",", 
+   RowBox[{
+    InterpretationBox[
+     UnderscriptBox[
+      StyleBox["k1",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]], 
+      StyleBox["Global",
+       StripOnInput->False,
+       ShowSyntaxStyles->False,
+       AutoSpacing->False,
+       ZeroWidthTimes->True,
+       LineColor->RGBColor[0, 0, 0],
+       FrontFaceColor->RGBColor[0, 0, 0],
+       BackFaceColor->RGBColor[0, 0, 0],
+       GraphicsColor->RGBColor[0, 0, 0],
+       FontColor->RGBColor[0, 0, 0]]],
+     Toolbox`parameter["k1"],
+     Editable->False,
+     Selectable->False], "[", "t", "]"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.7165676666308284`*^9, 
+  3.7165676710019417`*^9}},ExpressionUUID->"fa7c9391-c3a9-453c-9c6f-\
+8c78af4d90a8"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Cases", "[", 
+  RowBox[{"xml", ",", 
+   RowBox[{
+    RowBox[{"XMLElement", "[", 
+     RowBox[{"\"\<parameter\>\"", ",", "attrb_", ",", "_"}], "]"}], 
+    "\[RuleDelayed]", "attrb"}], ",", "\[Infinity]"}], "]"}]], "Input",Express\
+ionUUID->"983b9b35-c399-4f4e-a80e-9cb77eacb573"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+     RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686811\"\>"}], ",", 
+     RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"3.32E-18\"\>"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k2\"\>"}], ",", 
+     RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686823\"\>"}], ",", 
+     RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.01\"\>"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"v\"\>"}], ",", 
+     RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686859\"\>"}], ",", 
+     RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"4\"\>"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+     RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686895\"\>"}], ",", 
+     RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.0004\"\>"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+     RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686955\"\>"}], ",", 
+     RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"1\"\>"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+     RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_687027\"\>"}], ",", 
+     RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"1E-5\"\>"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+     RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_687063\"\>"}], ",", 
+     RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.004\"\>"}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+     RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_687111\"\>"}], ",", 
+     RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.11\"\>"}]}], "}"}]}], 
+  "}"}]], "Output",
+ CellChangeTimes->{
+  3.7165679177136054`*^9},ExpressionUUID->"1181d9e4-8bc0-4c35-ac4b-\
+8342b2e22b9b"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"\"\<constant\>\"", "/.", "#"}], ")"}], "===", 
+        "\"\<true\>\""}], ",", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"parameter", "[", "\"\<id\>\"", "]"}], "/.", "#"}], ")"}], 
+       ",", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"parameter", "[", "\"\<id\>\"", "]"}], "/.", "#"}], ")"}], 
+        "[", "t", "]"}]}], "]"}], "&"}], "/@", "attrVal"}], "\[Rule]", 
+   "attrVal"}], "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{
+  3.716568191315654*^9},ExpressionUUID->"e5de8be2-aea1-45a7-98f6-\
+b663fb463bfd"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}], ",", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k2",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k2"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}], ",", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["v",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["v"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}], ",", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}], ",", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}], ",", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}], ",", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}], ",", 
+    RowBox[{
+     InterpretationBox[
+      UnderscriptBox[
+       StyleBox["k1",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]], 
+       StyleBox["Global",
+        StripOnInput->False,
+        ShowSyntaxStyles->False,
+        AutoSpacing->False,
+        ZeroWidthTimes->True,
+        LineColor->RGBColor[0, 0, 0],
+        FrontFaceColor->RGBColor[0, 0, 0],
+        BackFaceColor->RGBColor[0, 0, 0],
+        GraphicsColor->RGBColor[0, 0, 0],
+        FontColor->RGBColor[0, 0, 0]]],
+      Toolbox`parameter["k1"],
+      Editable->False,
+      Selectable->False], "[", "t", "]"}]}], "}"}], "\[Rule]", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+      RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686811\"\>"}], ",", 
+      RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"3.32E-18\"\>"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k2\"\>"}], ",", 
+      RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686823\"\>"}], ",", 
+      RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.01\"\>"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"v\"\>"}], ",", 
+      RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686859\"\>"}], ",", 
+      RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"4\"\>"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+      RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686895\"\>"}], ",", 
+      RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.0004\"\>"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+      RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_686955\"\>"}], ",", 
+      RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"1\"\>"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+      RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_687027\"\>"}], ",", 
+      RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"1E-5\"\>"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+      RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_687063\"\>"}], ",", 
+      RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.004\"\>"}]}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\<\"id\"\>", "\[Rule]", "\<\"k1\"\>"}], ",", 
+      RowBox[{"\<\"metaid\"\>", "\[Rule]", "\<\"_687111\"\>"}], ",", 
+      RowBox[{"\<\"value\"\>", "\[Rule]", "\<\"0.11\"\>"}]}], "}"}]}], 
+   "}"}]}]], "Output",
+ CellChangeTimes->{
+  3.7165681925656796`*^9},ExpressionUUID->"e0af0052-2953-4ba7-803e-\
+de06ea14afa5"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"\"\<constant\>\"", "/.", "#"}], ")"}], "===", "\"\<true\>\""}], 
+   "&"}], "/@", 
+  RowBox[{"attrVal", "[", 
+   RowBox[{"[", "1", "]"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.716568208340383*^9, 
+  3.7165683319664936`*^9}},ExpressionUUID->"564f3313-c5f9-4c26-b3db-\
+1e03714d8122"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"False", ",", "False", ",", "False"}], "}"}]], "Output",
+ CellChangeTimes->{{3.7165682110391417`*^9, 
+  3.716568332779004*^9}},ExpressionUUID->"3f23543f-1251-4586-868f-\
+6eb2912d807f"]
+}, Open  ]]
+},
+WindowSize->{680, 676},
+WindowMargins->{{Automatic, -6}, {Automatic, 0}},
+FrontEndVersion->"11.1 for Microsoft Windows (64-bit) (March 13, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 8753, 228, 848, "Input", "ExpressionUUID" -> \
+"e7df83ea-fc15-4393-92f7-1dd001fa5198"],
+Cell[9314, 250, 11571, 268, 1000, "Input", "ExpressionUUID" -> \
+"e344a271-8dc4-49b8-a1c3-3520dc897450"],
+Cell[20888, 520, 154, 3, 30, "Input", "ExpressionUUID" -> \
+"3387bd43-26ba-4984-bd77-cc25f82525a2"],
+Cell[21045, 525, 304, 8, 30, "Input", "ExpressionUUID" -> \
+"f6c14415-4e72-46d4-b11a-f811b31cee84"],
+Cell[CellGroupData[{
+Cell[21374, 537, 775, 12, 30, "Input", "ExpressionUUID" -> \
+"cff361a6-bcbf-4af1-8d9a-45ce21d1e004"],
+Cell[22152, 551, 10062, 287, 252, "Output", "ExpressionUUID" -> \
+"4fb8d4cd-d620-48c8-9d5a-339dc99137b2"]
+}, Open  ]],
+Cell[32229, 841, 1491, 46, 88, "Input", "ExpressionUUID" -> \
+"29acb608-785c-4d70-ac65-db121dc4af86"],
+Cell[CellGroupData[{
+Cell[33745, 891, 1670, 54, 88, "Input", "ExpressionUUID" -> \
+"b3d64178-7bdf-4d7f-8296-c1023095a49b"],
+Cell[35418, 947, 1004, 19, 41, "Message", "ExpressionUUID" -> \
+"ba39aa6e-164f-4f57-9e1f-d78a256d110a"],
+Cell[36425, 968, 163, 3, 30, "Output", "ExpressionUUID" -> \
+"100b405f-33ca-45c9-931e-7fbeeb408caa"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[36625, 976, 912, 28, 50, "Input", "ExpressionUUID" -> \
+"e6d62652-5f87-410b-8509-e0487a86fed8"],
+Cell[37540, 1006, 7391, 221, 74, "Output", "ExpressionUUID" -> \
+"3e08fdb9-e913-477e-9a0f-b7acb4396b78"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[44968, 1232, 844, 26, 50, "Input", "ExpressionUUID" -> \
+"269d819c-33c3-4967-b4da-cb938cb6a84c"],
+Cell[45815, 1260, 361, 7, 30, "Output", "ExpressionUUID" -> \
+"68e7a8b0-af0a-4260-bca2-8cb22006ef0d"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[46213, 1272, 218, 5, 30, "Input", "ExpressionUUID" -> \
+"e0182f15-f25f-49d2-bd92-e89700826807"],
+Cell[46434, 1279, 6853, 213, 42, "Output", "ExpressionUUID" -> \
+"fa7c9391-c3a9-453c-9c6f-8c78af4d90a8"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[53324, 1497, 302, 7, 30, "Input", "ExpressionUUID" -> \
+"983b9b35-c399-4f4e-a80e-9cb77eacb573"],
+Cell[53629, 1506, 2024, 46, 126, "Output", "ExpressionUUID" -> \
+"1181d9e4-8bc0-4c35-ac4b-8342b2e22b9b"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[55690, 1557, 721, 23, 69, "Input", "ExpressionUUID" -> \
+"e5de8be2-aea1-45a7-98f6-b663fb463bfd"],
+Cell[56414, 1582, 9000, 257, 157, "Output", "ExpressionUUID" -> \
+"e0af0052-2953-4ba7-803e-de06ea14afa5"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[65451, 1844, 362, 11, 30, "Input", "ExpressionUUID" -> \
+"564f3313-c5f9-4c26-b3db-1e03714d8122"],
+Cell[65816, 1857, 223, 5, 30, "Output", "ExpressionUUID" -> \
+"3f23543f-1251-4586-868f-6eb2912d807f"]
+}, Open  ]]
+}
+]
+*)
+
